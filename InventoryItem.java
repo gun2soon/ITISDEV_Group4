@@ -2,7 +2,13 @@ public abstract class InventoryItem {
     private String name;
     private int quantity;
     private int SKU;
-    private int price;
+    private float cost;
+
+    public InventoryItem(String name, int quantity, float cost) {
+        this.name = name;
+        this.quantity = quantity;
+        this.cost = cost;
+    }
 
     public InventoryItem(String name, int quantity) {
         this.name = name;
@@ -15,6 +21,11 @@ public abstract class InventoryItem {
 
     public int getQuantity() {
         return quantity;
+    }
+
+    public float getCost()
+    {
+        return cost;
     }
 
     public int getSKU() {
