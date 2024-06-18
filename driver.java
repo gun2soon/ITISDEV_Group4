@@ -17,23 +17,29 @@ public class driver {
         inventory.addItem(new Lids("Hot", 100));
         inventory.addItem(new Lids("Cold", 100));
 
-        System.out.println("Menu: \n");
-        System.out.println("[1] Display Inventory");
-        System.out.println("[2] Update Inventory");
-        System.out.print("Enter choice: ");
-        int choice = sc.nextInt();  // Prompt the user first, then read the input
-
-        switch (choice) {
-            case 1:
-                inventory.displayInventory();
-                break;
-            case 2:
-                // You can implement the updateInventory method and call it here
-                // inventory.updateInventory();
-                break;
-            default:
-                System.out.println("Invalid choice.");
-                break;
+        int choice = 0;
+        while(choice != 4 ){
+            System.out.println("\nMenu: \n");
+            System.out.println("[1] Display Inventory");
+            System.out.println("[2] Update Inventory");
+            System.out.println("[4] Exit Inventory");
+            System.out.print("Enter choice: ");
+            choice = sc.nextInt(); // Prompt the user first, then read the input
+            switch (choice) {
+                case 1:
+                    inventory.displayInventory();
+                    break;
+                case 2:
+                    inventory.displayInventory();
+                    inventory.updateInventory();
+                    break;
+                case 4:
+                    System.out.print("\nExiting Program\n");
+                    break;
+                default:
+                    System.out.println("Invalid choice.");
+                    break;
+            }
         }
 
         // Use some items
