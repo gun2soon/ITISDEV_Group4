@@ -4,12 +4,17 @@ import java.util.Scanner;
 public class InventoryManagement {
     private ArrayList<InventoryItem> inventory;
     private int nextSKU;
+    private Scanner sc;
 
-    Scanner sc = new Scanner(System.in);
-    
     public InventoryManagement() {
         inventory = new ArrayList<>();
         nextSKU = 1;
+        sc = new Scanner(System.in);
+    }
+
+    public void cls() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 
     public void addItem(InventoryItem item) {
@@ -49,23 +54,57 @@ public class InventoryManagement {
         return " ".repeat(paddingLeft) + text + " ".repeat(paddingRight);
     }
 
+    public void inventoryMenu() {
+        int choice = 0;
+        while(choice != 3){
+
+            System.out.println("\nInventory Management System: Ready Coffee PH! \n");
+
+            System.out.println("Menu: \n");
+            System.out.println("[1] Display Inventory");
+            System.out.println("[2] Update Inventory");
+            System.out.println("[3] Exit Inventory \n");
+
+            System.out.print("Enter choice: ");
+            choice = sc.nextInt(); // Prompt the user first, then read the input
+            sc.nextLine();
+            switch (choice) {
+                case 1:
+                    displayInventory();
+                    break;
+                case 2:
+                    displayInventory();
+                    updateInventory();
+                    break;
+                case 3:
+                    cls();
+                    System.out.print("\nExiting Inventory\n");
+                    break;
+                default:
+                    System.out.println("Invalid choice.");
+                    break;
+            }
+        }
+    }
+
     public void displayInventory() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
         String itemsHeader = centerString("Items", 16);
         String qtyUnitHeader = centerString("QTY/Unit", 11);
         String skuHeader = centerString("SKU", 8);
-        String output = String.format("%s| %s| %s", itemsHeader, qtyUnitHeader,skuHeader);
+        String costHeader = centerString("Cost", 11);
+        String output = String.format("%s| %s| %s| %s", itemsHeader, qtyUnitHeader,skuHeader, costHeader);
         System.out.println(output);
         for (InventoryItem item : inventory) {
             //System.out.println(item.getName() + ": " + item.getQuantity());
-            output = String.format("%-16s| %-7d%-4s| %-8d", item.getName(), item.getQuantity(), item.getUnit(), item.getSKU());
+            output = String.format("%-16s| %-7d%-4s| %-8d| %.2f", item.getName(), item.getQuantity(), item.getUnit(), item.getSKU(), item.getCost());
             System.out.println(output);
         }
     }
 
     public void updateInventory(){
-        int selectItem;
+        int selectItem = 1;
         boolean found = false;
         while (!found){
             System.out.print("Select a SKU from the inventory you want to update: ");
