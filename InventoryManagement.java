@@ -2,20 +2,19 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class InventoryManagement {
+    private ArrayList<InventoryItem> inventory;
+    private int nextSKU;
+    private Scanner sc;
+
+    public InventoryManagement() {
+        inventory = new ArrayList<>();
+        nextSKU = 1;
+        sc = new Scanner(System.in);
+    }
 
     public void cls() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
-    }
-
-    private ArrayList<InventoryItem> inventory;
-    private int nextSKU;
-
-    Scanner sc = new Scanner(System.in);
-    
-    public InventoryManagement() {
-        inventory = new ArrayList<>();
-        nextSKU = 1;
     }
 
     public void addItem(InventoryItem item) {
@@ -56,7 +55,6 @@ public class InventoryManagement {
     }
 
     public void inventoryMenu() {
-   
         int choice = 0;
         while(choice != 3){
 
@@ -69,6 +67,7 @@ public class InventoryManagement {
 
             System.out.print("Enter choice: ");
             choice = sc.nextInt(); // Prompt the user first, then read the input
+            sc.nextLine();
             switch (choice) {
                 case 1:
                     displayInventory();
@@ -105,7 +104,7 @@ public class InventoryManagement {
     }
 
     public void updateInventory(){
-        int selectItem;
+        int selectItem = 1;
         boolean found = false;
         while (!found){
             System.out.print("Select a SKU from the inventory you want to update: ");
