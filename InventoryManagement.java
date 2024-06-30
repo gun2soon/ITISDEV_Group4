@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class InventoryManagement {
@@ -25,9 +26,14 @@ public class InventoryManagement {
     }
 
     public void removeItem(String itemName, int quantity) {
-        for (InventoryItem item : inventory) {
+        Iterator<InventoryItem> iterator = inventory.iterator();
+        while (iterator.hasNext()) {
+            InventoryItem item = iterator.next();
             if (item.getName().equals(itemName)) {
-                item.reduceQuantity(quantity);
+                boolean success = item.reduceQuantity(quantity);
+                if (success && item.getQuantity() == 0) {
+                    iterator.remove();
+                }
                 return;
             }
         }
@@ -46,6 +52,7 @@ public class InventoryManagement {
         int padding = (width - text.length()) / 2;
         int paddingLeft = padding;
         int paddingRight = width - text.length() - paddingLeft;
+        
         return " ".repeat(paddingLeft) + text + " ".repeat(paddingRight);
     }
 
@@ -64,39 +71,48 @@ public class InventoryManagement {
         }
     }
 
+<<<<<<< Updated upstream
     public void updateInventory(){
         int selectItem;
+=======
+    public void updateInventory() {
+        int selectItem = 1;
+>>>>>>> Stashed changes
         boolean found = false;
-        while (!found){
+        while (!found) {
             System.out.print("Select a SKU from the inventory you want to update: ");
             selectItem = Integer.parseInt(sc.nextLine());
-            
-            for (InventoryItem item : inventory){
+    
+            for (InventoryItem item : inventory) {
                 if (item.getSKU() == selectItem) {
                     String output = String.format("How many %s unit/QTY you want to update: ", item.getUnit());
                     System.out.print(output);
                     int updateQuantity = Integer.parseInt(sc.nextLine());
+    
+                    System.out.print("Enter the cost per unit for the updated quantity: ");
+                    float costPerUnit = Float.parseFloat(sc.nextLine());
+    
                     item.addQuantity(updateQuantity);
+                    item.setCost(costPerUnit); // Update the cost per unit
                     System.out.println("Inventory updated successfully!");
                     found = true;
                     break;
                 }
             }
+    
             if (!found) {
                 System.out.println("Item with SKU " + selectItem + " not found.");
                 System.out.print("Do you want to continue [Y/N]: ");
                 String yesORno = sc.nextLine();
-                if(yesORno.equalsIgnoreCase("Y")){
+                if (yesORno.equalsIgnoreCase("Y")) {
                     found = false;
                     System.out.println();
-                }
-                else{
+                } else {
                     found = true;
                 }
-            }
-            else {
+            } else {
                 displayInventory();
-            }   
+            }
         }
     }
 }
