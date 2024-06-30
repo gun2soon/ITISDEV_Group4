@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class InventoryManagement {
@@ -25,9 +26,14 @@ public class InventoryManagement {
     }
 
     public void removeItem(String itemName, int quantity) {
-        for (InventoryItem item : inventory) {
+        Iterator<InventoryItem> iterator = inventory.iterator();
+        while (iterator.hasNext()) {
+            InventoryItem item = iterator.next();
             if (item.getName().equals(itemName)) {
-                item.reduceQuantity(quantity);
+                boolean success = item.reduceQuantity(quantity);
+                if (success && item.getQuantity() == 0) {
+                    iterator.remove();
+                }
                 return;
             }
         }
@@ -46,6 +52,7 @@ public class InventoryManagement {
         int padding = (width - text.length()) / 2;
         int paddingLeft = padding;
         int paddingRight = width - text.length() - paddingLeft;
+        
         return " ".repeat(paddingLeft) + text + " ".repeat(paddingRight);
     }
 

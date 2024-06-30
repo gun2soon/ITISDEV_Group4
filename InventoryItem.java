@@ -35,10 +35,18 @@ public abstract class InventoryItem {
         }
     }
 
-    public void reduceQuantity(int amount) {
+    public boolean reduceQuantity(int amount) {
         if (amount > 0 && amount <= this.quantity) {
+            float proportion = (float) amount / this.quantity;
             this.quantity -= amount;
+            this.cost -= this.cost * proportion;
+            return true;
+        } else if (amount > 0 && amount > this.quantity) {
+            this.quantity = 0;
+            this.cost = 0;
+            return true;
         }
+        return false;
     }
 }
 
