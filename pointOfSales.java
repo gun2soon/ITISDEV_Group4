@@ -148,10 +148,7 @@ public class pointOfSales {
 
     private void displayBasket() {
 
-        if (basket.isEmpty()) {
-            System.out.println("Basket is empty.");
-            return;
-        }
+        
 
         System.out.println("Current Basket:");
         float basketTotal = 0.0f;
