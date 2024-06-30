@@ -5,12 +5,17 @@ import java.util.Scanner;
 public class InventoryManagement {
     private ArrayList<InventoryItem> inventory;
     private int nextSKU;
+    private Scanner sc;
 
-    Scanner sc = new Scanner(System.in);
-    
     public InventoryManagement() {
         inventory = new ArrayList<>();
         nextSKU = 1;
+        sc = new Scanner(System.in);
+    }
+
+    public void cls() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 
     public void addItem(InventoryItem item) {
@@ -56,34 +61,73 @@ public class InventoryManagement {
         return " ".repeat(paddingLeft) + text + " ".repeat(paddingRight);
     }
 
+    public void inventoryMenu() {
+        int choice = 0;
+        while(choice != 3){
+
+            System.out.println("\nInventory Management System: Ready Coffee PH! \n");
+
+            System.out.println("Menu: \n");
+            System.out.println("[1] Display Inventory");
+            System.out.println("[2] Update Inventory");
+            System.out.println("[3] Exit Inventory \n");
+
+            System.out.print("Enter choice: ");
+            choice = sc.nextInt(); // Prompt the user first, then read the input
+            sc.nextLine();
+            switch (choice) {
+                case 1:
+                    displayInventory();
+                    break;
+                case 2:
+                    displayInventory();
+                    updateInventory();
+                    break;
+                case 3:
+                    cls();
+                    System.out.print("\nExiting Inventory\n");
+                    break;
+                default:
+                    System.out.println("Invalid choice.");
+                    break;
+            }
+        }
+    }
+
     public void displayInventory() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
         String itemsHeader = centerString("Items", 16);
         String qtyUnitHeader = centerString("QTY/Unit", 11);
         String skuHeader = centerString("SKU", 8);
-        String output = String.format("%s| %s| %s", itemsHeader, qtyUnitHeader,skuHeader);
+        String costHeader = centerString("Cost", 11);
+        String output = String.format("%s| %s| %s| %s", itemsHeader, qtyUnitHeader,skuHeader, costHeader);
         System.out.println(output);
         for (InventoryItem item : inventory) {
             //System.out.println(item.getName() + ": " + item.getQuantity());
-            output = String.format("%-16s| %-7d%-4s| %-8d", item.getName(), item.getQuantity(), item.getUnit(), item.getSKU());
+            output = String.format("%-16s| %-7d%-4s| %-8d| %.2f", item.getName(), item.getQuantity(), item.getUnit(), item.getSKU(), item.getCost());
             System.out.println(output);
         }
     }
 
-    public void updateInventory(){
+    public void updateInventory() {
         int selectItem;
         boolean found = false;
-        while (!found){
+        while (!found) {
             System.out.print("Select a SKU from the inventory you want to update: ");
             selectItem = Integer.parseInt(sc.nextLine());
             
-            for (InventoryItem item : inventory){
+            for (InventoryItem item : inventory) {
                 if (item.getSKU() == selectItem) {
                     String output = String.format("How many %s unit/QTY you want to update: ", item.getUnit());
                     System.out.print(output);
                     int updateQuantity = Integer.parseInt(sc.nextLine());
                     item.addQuantity(updateQuantity);
+    
+                    System.out.print("Enter the cost of the product: ");
+                    float newCost = Float.parseFloat(sc.nextLine());
+                    item.setCost(newCost);
+    
                     System.out.println("Inventory updated successfully!");
                     found = true;
                     break;
@@ -93,15 +137,13 @@ public class InventoryManagement {
                 System.out.println("Item with SKU " + selectItem + " not found.");
                 System.out.print("Do you want to continue [Y/N]: ");
                 String yesORno = sc.nextLine();
-                if(yesORno.equalsIgnoreCase("Y")){
+                if (yesORno.equalsIgnoreCase("Y")) {
                     found = false;
                     System.out.println();
-                }
-                else{
+                } else {
                     found = true;
                 }
-            }
-            else {
+            } else {
                 displayInventory();
             }   
         }
