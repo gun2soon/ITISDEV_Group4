@@ -63,27 +63,24 @@ public class InventoryManagement {
 
     public void inventoryMenu() {
         int choice = 0;
-        while(choice != 3){
+        while(choice != 2){
 
             System.out.println("\nInventory Management System: Ready Coffee PH! \n");
 
+            displayInventory();
+
             System.out.println("Menu: \n");
-            System.out.println("[1] Display Inventory");
-            System.out.println("[2] Update Inventory");
-            System.out.println("[3] Exit Inventory \n");
+            System.out.println("[1] Update Inventory");
+            System.out.println("[2] Exit Inventory \n");
 
             System.out.print("Enter choice: ");
             choice = sc.nextInt(); // Prompt the user first, then read the input
             sc.nextLine();
             switch (choice) {
                 case 1:
-                    displayInventory();
-                    break;
-                case 2:
-                    displayInventory();
                     updateInventory();
                     break;
-                case 3:
+                case 2:
                     cls();
                     System.out.print("\nExiting Inventory\n");
                     break;
@@ -119,14 +116,15 @@ public class InventoryManagement {
             
             for (InventoryItem item : inventory) {
                 if (item.getSKU() == selectItem) {
-                    String output = String.format("How many %s unit/QTY you want to update: ", item.getUnit());
-                    System.out.print(output);
+                    System.out.print("How many units/QTY you want to add: ");
                     int updateQuantity = Integer.parseInt(sc.nextLine());
-                    item.addQuantity(updateQuantity);
     
-                    System.out.print("Enter the cost of the product: ");
-                    float newCost = Float.parseFloat(sc.nextLine());
-                    item.setCost(newCost);
+                    System.out.print("Enter the cost of the added quantity: ");
+                    float costOfAddedQuantity = Float.parseFloat(sc.nextLine());
+    
+                    // Update quantity and cost
+                    item.addQuantity(updateQuantity);
+                    item.setCost(item.getCost() + costOfAddedQuantity);
     
                     System.out.println("Inventory updated successfully!");
                     found = true;
@@ -144,8 +142,11 @@ public class InventoryManagement {
                     found = true;
                 }
             } else {
-                displayInventory();
-            }   
+                return;
+            }
         }
     }
+    
+    
+    
 }

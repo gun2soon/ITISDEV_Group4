@@ -26,7 +26,7 @@ public class driver {
             System.out.println("Menu: \n");
             System.out.println("[1] Ready Coffee POS");
             System.out.println("[2] Access Inventory");
-            System.out.println("[3] Exit Inventory \n");
+            System.out.println("[3] Exit Program \n");
 
             System.out.print("Enter choice: ");
             choice = sc.nextInt(); // Prompt the user first, then read the input
