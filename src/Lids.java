@@ -20,4 +20,7 @@ public class Lids extends InventoryItem {
         return unit;
     }
 
+    public String getTableName() {
+        return "lids";
+    }
 }

@@ -15,4 +15,8 @@ public class Syrup extends InventoryItem {
     public String getUnit() {
         return unit;
     }
+
+    public String getTableName() {
+        return "syrup";
+    }
 }

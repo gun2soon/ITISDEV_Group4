@@ -40,6 +40,7 @@ public class driver {
                     inventory.inventoryMenu();
                     break;
                 case 3:
+                    inventory.saveInventoryToDatabase();
                     System.out.print("\nExiting Program\n");
                     break;
                 default:

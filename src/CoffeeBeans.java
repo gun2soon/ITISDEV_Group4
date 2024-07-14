@@ -9,4 +9,8 @@ public class CoffeeBeans extends InventoryItem {
     public String getUnit() {
         return unit;
     }
+
+    public String getTableName() {
+        return "coffeebeans";
+    }
 }

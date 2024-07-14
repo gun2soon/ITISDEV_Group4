@@ -62,5 +62,7 @@ public abstract class InventoryItem {
         }
         return false;
     }
+
+    public abstract String getTableName();
 }
 

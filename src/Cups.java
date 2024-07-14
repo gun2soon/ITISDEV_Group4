@@ -20,4 +20,8 @@ public class Cups extends InventoryItem {
     public String getUnit() {
         return unit;
     }
+
+    public String getTableName() {
+        return "cups";
+    }
 }
