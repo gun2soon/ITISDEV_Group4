@@ -1,16 +1,18 @@
-ITISDEV S13 TERM 3 AY 2023-2024
+## Getting Started
 
-Specialized Point-of-Sales (POS) and Inventory Management System (IMS) to track coffee sales and inventory for Ready Coffee PH
+Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
 
-Professor: Randi Julio Haboc
+## Folder Structure
 
-Business: Coffee Shop
-Business Type: Partnership
+The workspace contains two folders by default, where:
 
-Members:
-AGUSTIN, Lance
-CHEN, Shawn
-ORENCIA, Sophia
-ROSALES, Kaneesha
-SALGADO, Allyssa
-VALDEZ, Clarissa
+- `src`: the folder to maintain sources
+- `lib`: the folder to maintain dependencies
+
+Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+
+> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+
+## Dependency Management
+
+The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
