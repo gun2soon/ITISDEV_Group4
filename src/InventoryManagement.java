@@ -158,12 +158,12 @@ public class InventoryManagement {
         }
     }      
 
-    // public static void main(String[] args) {
-    //     InventoryManagement inventoryManagement = new InventoryManagement();
-    //     inventoryManagement.List_inventory();
+    public static void main(String[] args) {
+        InventoryManagement inventoryManagement = new InventoryManagement();
+        inventoryManagement.List_inventory();
 
-    //     inventoryManagement.displayInventory();
-    // }
+        inventoryManagement.displayInventory();
+    }
 
 
     public void addItem(InventoryItem item) {
