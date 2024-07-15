@@ -20,6 +20,11 @@ public class driver {
         // inventory.addItem(new Lids("Lid: Cold", 100, 140));
         // inventory.addItem(new Straws(100, 100));
         inventory.List_inventory();
+
+        InventoryView imsview = new InventoryView();
+        InventoryController imscontroller = new InventoryController(inventory, imsview);
+        imsview.getFrame().setVisible(true);
+
         
         int choice = 0;
         while (choice != 3) {

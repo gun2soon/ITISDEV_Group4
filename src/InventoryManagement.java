@@ -1,13 +1,12 @@
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Scanner;
-import java.util.List;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Scanner;
 
 
 public class InventoryManagement {
@@ -192,7 +191,7 @@ public class InventoryManagement {
             Class.forName("com.mysql.cj.jdbc.Driver");
     
             String jdbcURL = "jdbc:mysql://localhost:3306/inventory?useSSL=false&serverTimezone=UTC";
-            conn = DriverManager.getConnection(jdbcURL, "root", "12345");
+            conn = DriverManager.getConnection(jdbcURL, "root", "YES");
             System.out.println("Connected successfully");
     
             // 2. Prepare our SQL Statement of coffeebeans database
@@ -313,7 +312,7 @@ public class InventoryManagement {
             // Connect to our database
             Class.forName("com.mysql.cj.jdbc.Driver");
             String jdbcURL = "jdbc:mysql://localhost:3306/inventory?useSSL=false&serverTimezone=UTC";
-            conn = DriverManager.getConnection(jdbcURL, "root", "12345");
+            conn = DriverManager.getConnection(jdbcURL, "root", "YES");
             System.out.println("Connected successfully");
     
             // Prepare our SQL Statement
@@ -341,6 +340,10 @@ public class InventoryManagement {
 
     private String capitalizeFirstLetter(String str) {
         return str.substring(0, 1).toUpperCase() + str.substring(1);
+    }
+
+    public ArrayList<InventoryItem> getInventory() {
+        return inventory;
     }
 
     // public static void main(String[] args) {

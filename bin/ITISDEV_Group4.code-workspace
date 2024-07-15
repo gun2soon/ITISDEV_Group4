@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"name": "ITISDEV_Group4",
+			"path": ".."
+		}
+	],
+	"settings": {
+		"java.project.referencedLibraries": [
+			"lib/**/*.jar",
+			"mysql-connector-java-9.0.0.jar"
+		]
+	}
+}
