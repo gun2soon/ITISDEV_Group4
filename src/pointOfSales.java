@@ -64,42 +64,42 @@ public class pointOfSales {
 
     private void addToBasket() {
         cls();
-    Scanner sc = new Scanner(System.in);
-    Map<Integer, Coffee.CoffeeOption> coffeeOptions = Coffee.getCoffeeOptions();
+        Scanner sc = new Scanner(System.in);
+        Map<Integer, Coffee.CoffeeOption> coffeeOptions = Coffee.getCoffeeOptions();
 
-    System.out.println("Select coffee to add:");
-    for (Map.Entry<Integer, Coffee.CoffeeOption> entry : coffeeOptions.entrySet()) {
-        System.out.println("[" + entry.getKey() + "] " + entry.getValue().name);
-    }
-    System.out.println("[0] Cancel");
-    System.out.print("Enter choice: ");
-    int coffeeChoice = sc.nextInt();
+        System.out.println("Select coffee to add:");
+        for (Map.Entry<Integer, Coffee.CoffeeOption> entry : coffeeOptions.entrySet()) {
+            System.out.println("[" + entry.getKey() + "] " + entry.getValue().name);
+        }
+        System.out.println("[0] Cancel");
+        System.out.print("Enter choice: ");
+        int coffeeChoice = sc.nextInt();
 
-    if (coffeeChoice == 0) {
-        System.out.println("Transaction cancelled.");
-        return;
-    }
+        if (coffeeChoice == 0) {
+            System.out.println("Transaction cancelled.");
+            return;
+        }
 
-    Coffee.CoffeeOption selectedOption = coffeeOptions.get(coffeeChoice);
-    if (selectedOption == null) {
-        System.out.println("Invalid choice.");
-        return;
-    }
+        Coffee.CoffeeOption selectedOption = coffeeOptions.get(coffeeChoice);
+        if (selectedOption == null) {
+            System.out.println("Invalid choice.");
+            return;
+        }
 
-    System.out.print("Enter quantity (0 to cancel): ");
-    int quantity = sc.nextInt();
+        System.out.print("Enter quantity (0 to cancel): ");
+        int quantity = sc.nextInt();
 
-    if (quantity == 0) {
-        System.out.println("Transaction canceled.");
-        return;
-    }
+        if (quantity == 0) {
+            System.out.println("Transaction canceled.");
+            return;
+        }
 
-    // Add to basket
-    SaleItem item = new SaleItem(selectedOption.name, quantity, Coffee.getCoffeePrice(selectedOption.name), selectedOption.isIced);
-    basket.add(item);
+        // Add to basket
+        SaleItem item = new SaleItem(selectedOption.name, quantity, Coffee.getCoffeePrice(selectedOption.name), selectedOption.isIced);
+        basket.add(item);
 
-    System.out.println(quantity + " " + selectedOption.name + "(s) added to the basket.");
-    System.out.println("Press enter to continue...");
+        System.out.println(quantity + " " + selectedOption.name + "(s) added to the basket.");
+        System.out.println("Press enter to continue...");
         sc.nextLine(); // Consume newline left-over
         sc.nextLine(); // Wait for user to press enter
     }

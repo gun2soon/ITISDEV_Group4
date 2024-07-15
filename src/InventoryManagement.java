@@ -12,7 +12,7 @@ import java.sql.SQLException;
 
 public class InventoryManagement {
     private ArrayList<InventoryItem> inventory;
-    private int nextSKU;
+    //private int nextSKU;
     private Scanner sc;
 
     private List<CoffeeBeans> coffeebeansList = new ArrayList<>();
@@ -24,7 +24,7 @@ public class InventoryManagement {
 
     public InventoryManagement() {
         inventory = new ArrayList<>();
-        nextSKU = 1;
+        //nextSKU = 1;
         sc = new Scanner(System.in);
     }
 

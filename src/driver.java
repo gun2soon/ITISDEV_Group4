@@ -1,5 +1,5 @@
 import java.util.Scanner;
-import java.sql.*;
+//import java.sql.*;
 
 public class driver {
     public static void main(String[] args) {
