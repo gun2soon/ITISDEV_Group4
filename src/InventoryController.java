@@ -96,11 +96,11 @@ public class InventoryController {
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String selectedItem = skuComboBox.getSelectedItem().toString();
-                String[] parts = selectedItem.split(" - ");
+                String selectedItem = skuComboBox.getSelectedItem().toString();//get yung selected item ng combobox
+                String[] parts = selectedItem.split(" - ");//seperate yung 2 parts sperated by - 
                 if (parts.length > 0) {
-                    String skuStr = parts[0];
-                    int sku = Integer.parseInt(skuStr);
+                    String skuStr = parts[0];//get the 1st part which is the sku
+                    int sku = Integer.parseInt(skuStr);//parse it here
                     String qtyStr = qtyField.getText();
                     String costStr = costField.getText();
 
