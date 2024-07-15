@@ -40,7 +40,7 @@ public class InventoryController {
         for (InventoryItem item : imsmodel.getInventory()) {
             // Print each item (debug)
             System.out.println("Adding item to table: " + item.getName());
-            tableModel.addRow(new Object[]{
+            tableModel.addRow(new Object[]{//populate the rows
                 item.getName(),
                 item.getQuantity() + " " + item.getUnit(),
                 item.getSKU(),

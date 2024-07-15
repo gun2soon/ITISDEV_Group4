@@ -64,12 +64,4 @@ public class InventoryView {
     public JButton getExitButton() {
         return exitButton;
     }
-
-    public String getSelectedSKU() {
-        int selectedRow = table.getSelectedRow();
-        if (selectedRow != -1) {
-            return table.getValueAt(selectedRow, 2).toString();
-        }
-        return null;
-    }
 }
