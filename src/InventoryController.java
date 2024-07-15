@@ -40,7 +40,7 @@ public class InventoryController {
         for (InventoryItem item : imsmodel.getInventory()) {
             // Print each item (debug)
             System.out.println("Adding item to table: " + item.getName());
-            tableModel.addRow(new Object[]{//populate the rows
+            tableModel.addRow(new Object[]{
                 item.getName(),
                 item.getQuantity() + " " + item.getUnit(),
                 item.getSKU(),
@@ -65,10 +65,11 @@ public class InventoryController {
         JLabel skuLabel = new JLabel("Select an SKU:");
         JComboBox<String> skuComboBox = new JComboBox<>();
         for (int i = 0; i < imsview.getTableModel().getRowCount(); i++) {
-            String sku = imsview.getTableModel().getValueAt(i, 2).toString();  //column ng sku
-            String name = imsview.getTableModel().getValueAt(i, 0).toString(); //column ng name
-            skuComboBox.addItem(sku + "-" + name);
+            String sku = imsview.getTableModel().getValueAt(i, 2).toString();
+            String name = imsview.getTableModel().getValueAt(i, 0).toString();
+            skuComboBox.addItem(sku + " - " + name);
         }
+
         JLabel qtyLabel = new JLabel("How many units/QTY to add:");
         JTextField qtyField = new JTextField();
         JLabel costLabel = new JLabel("Enter the cost of the added quantity:");
@@ -95,26 +96,32 @@ public class InventoryController {
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String skuStr = skuComboBox.getSelectedItem().toString();
-                int sku = Integer.parseInt(skuStr);
-                String qtyStr = qtyField.getText();
-                String costStr = costField.getText();
+                String selectedItem = skuComboBox.getSelectedItem().toString();
+                String[] parts = selectedItem.split(" - ");
+                if (parts.length > 0) {
+                    String skuStr = parts[0];
+                    int sku = Integer.parseInt(skuStr);
+                    String qtyStr = qtyField.getText();
+                    String costStr = costField.getText();
 
-                if (!skuStr.isEmpty() && !qtyStr.isEmpty() && !costStr.isEmpty()) {
-                    try {
-                        int qty = Integer.parseInt(qtyStr);
-                        float cost = Float.parseFloat(costStr);
-                        updateInventory(sku, qty, cost);
-                        imsmodel.saveInventoryToDatabase(); // (test pt.123456) Save updates to the database
-                        updateTable();
-                        dialog.dispose();
-                    } catch (NumberFormatException ex) {
-                        // If di valid number formats
-                        JOptionPane.showMessageDialog(dialog, "Please enter valid numbers for quantity and cost.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                    if (!skuStr.isEmpty() && !qtyStr.isEmpty() && !costStr.isEmpty()) {
+                        try {
+                            int qty = Integer.parseInt(qtyStr);
+                            float cost = Float.parseFloat(costStr);
+                            updateInventory(sku, qty, cost);
+                            imsmodel.saveInventoryToDatabase(); // Save updates to the database
+                            updateTable();
+                            dialog.dispose();
+                        } catch (NumberFormatException ex) {
+                            // If di valid number formats
+                            JOptionPane.showMessageDialog(dialog, "Please enter valid numbers for quantity and cost.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    } else {
+                        // If may namiss....na field kasi
+                        JOptionPane.showMessageDialog(dialog, "All fields are required.", "Input Error", JOptionPane.ERROR_MESSAGE);
                     }
                 } else {
-                    //if may namiss......na field kasi
-                    JOptionPane.showMessageDialog(dialog, "All fields are required.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(dialog, "Invalid SKU format.", "Input Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -129,7 +136,7 @@ public class InventoryController {
         dialog.setVisible(true);
     }
 
-    // Update the table inspired sa update inventory niyo
+    // Update the inventory based on the provided SKU, quantity, and cost
     private void updateInventory(int sku, int qty, float cost) {
         for (InventoryItem item : imsmodel.getInventory()) {
             if (item.getSKU() == sku) {
@@ -144,11 +151,10 @@ public class InventoryController {
         JOptionPane.showMessageDialog(imsview.getFrame(), "Item with SKU " + sku + " not found.", "Error", JOptionPane.ERROR_MESSAGE);
     }
 
-    // Update the table after ng inventory update
+    // Update the table after the inventory update
     private void updateTable() {
         DefaultTableModel tableModel = imsview.getTableModel();
         tableModel.setRowCount(0); // Clear the table
         populateTable(); // Repopulate table with updated data
     }
 }
-
