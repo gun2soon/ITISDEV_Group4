@@ -65,7 +65,9 @@ public class InventoryController {
         JLabel skuLabel = new JLabel("Select an SKU:");
         JComboBox<String> skuComboBox = new JComboBox<>();
         for (int i = 0; i < imsview.getTableModel().getRowCount(); i++) {
-            skuComboBox.addItem(imsview.getTableModel().getValueAt(i, 2).toString());
+            String sku = imsview.getTableModel().getValueAt(i, 2).toString();  //column ng sku
+            String name = imsview.getTableModel().getValueAt(i, 0).toString(); //column ng name
+            skuComboBox.addItem(sku + "-" + name);
         }
         JLabel qtyLabel = new JLabel("How many units/QTY to add:");
         JTextField qtyField = new JTextField();
