@@ -1,12 +1,14 @@
 import java.util.ArrayList;
+//import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class pointOfSales {
     private InventoryManagement inventory;
     private float totalSales;
     private List<SaleItem> basket;
-
+    
     public pointOfSales(InventoryManagement inventory) {
         this.inventory = inventory;
         this.totalSales = 0.0f;
@@ -19,32 +21,26 @@ public class pointOfSales {
     }
 
     public void POSMenu() {
+        cls();
         Scanner sc = new Scanner(System.in);
         int choice = 0;
-
         while (choice != 4) {
-            cls();
-            System.out.println("\nReady Coffee PH - Point of Sales (POS)\n");
-            System.out.println("Available Menu: \n");
+            System.out.println("\nPoint of Sales Menu: Ready Coffee PH!\n");
 
-            System.out.println("[AVAILABLE] Iced Cafe Americano");
-            System.out.println("[AVAILABLE] Hot Cafe Americano");
-            System.out.println("[AVAILABLE] Iced Cafe Mocha");
-            System.out.println("[AVAILABLE] Hot Cafe Mocha");
-            System.out.println("[AVAILABLE] Iced Vanilla Macchiato");
-            System.out.println("[AVAILABLE] Hot Vanilla Macchiato");
-            System.out.println("[AVAILABLE] Iced Caramel Macchiato");
-            System.out.println("[AVAILABLE] Hot Caramel Macchiato\n\n");
+            System.out.println("Available Coffee Options:");
+            for (Coffee.CoffeeOption option : Coffee.getCoffeeOptions().values()) {
+                System.out.println("[AVAILABLE] " + option.name);
+            }
+            System.out.println();
 
-            displayBasket();
-
-            System.out.println("\n\n[1] Add Item to Basket");
-            System.out.println("[2] Delete Item from Basket");
-            System.out.println("[3] View Basket and Checkout");
-            System.out.println("[4] Exit POS\n");
+            System.out.println("[1] Add to Basket");
+            System.out.println("[2] Delete Items on Basket");
+            System.out.println("[3] Checkout");
+            System.out.println("[4] Exit POS Menu\n");
 
             System.out.print("Enter choice: ");
             choice = sc.nextInt();
+            sc.nextLine();  // Consume newline
 
             switch (choice) {
                 case 1:
@@ -57,91 +53,53 @@ public class pointOfSales {
                     viewBasketAndCheckout();
                     break;
                 case 4:
-                    cls();
-                    System.out.println("Exiting POS...\n");
+                    System.out.print("\nExiting POS Menu\n");
                     break;
                 default:
-                    System.out.println("Invalid choice. Please try again.");
+                    System.out.println("Invalid choice.");
                     break;
             }
         }
     }
 
     private void addToBasket() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Select coffee to add:");
-        System.out.println("[1] Iced Cafe Americano");
-        System.out.println("[2] Hot Cafe Americano");
-        System.out.println("[3] Iced Cafe Mocha");
-        System.out.println("[4] Hot Cafe Mocha");
-        System.out.println("[5] Iced Vanilla Macchiato");
-        System.out.println("[6] Hot Vanilla Macchiato");
-        System.out.println("[7] Iced Caramel Macchiato");
-        System.out.println("[8] Hot Caramel Macchiato");
-        System.out.println("[0] Cancel");
-        System.out.print("Enter choice: ");
-        int coffeeChoice = sc.nextInt();
+        cls();
+    Scanner sc = new Scanner(System.in);
+    Map<Integer, Coffee.CoffeeOption> coffeeOptions = Coffee.getCoffeeOptions();
 
-        if (coffeeChoice == 0) {
-            System.out.println("Transaction cancelled.");
-            return;
-        }
-    
+    System.out.println("Select coffee to add:");
+    for (Map.Entry<Integer, Coffee.CoffeeOption> entry : coffeeOptions.entrySet()) {
+        System.out.println("[" + entry.getKey() + "] " + entry.getValue().name);
+    }
+    System.out.println("[0] Cancel");
+    System.out.print("Enter choice: ");
+    int coffeeChoice = sc.nextInt();
 
-        String coffeeType = "";
-        boolean isIced = false;
-        switch (coffeeChoice) {
-            case 1:
-                coffeeType = "Iced Cafe Americano";
-                isIced = true;
-                break;
-            case 2:
-                coffeeType = "Hot Cafe Americano";
-                isIced = false;
-                break;
-            case 3:
-                coffeeType = "Iced Cafe Mocha";
-                isIced = true;
-                break;
-            case 4:
-                coffeeType = "Hot Cafe Mocha";
-                isIced = false;
-                break;
-            case 5:
-                coffeeType = "Iced Vanilla Macchiato";
-                isIced = true;
-                break;
-            case 6:
-                coffeeType = "Hot Vanilla Macchiato";
-                isIced = false;
-                break;
-            case 7:
-                coffeeType = "Iced Caramel Macchiato";
-                isIced = true;
-                break;
-            case 8:
-                coffeeType = "Hot Caramel Macchiato";
-                isIced = false;
-                break;
-            default:
-                System.out.println("Invalid choice.");
-                return;
-        }
+    if (coffeeChoice == 0) {
+        System.out.println("Transaction cancelled.");
+        return;
+    }
 
-        System.out.print("Enter quantity (0 to cancel): ");
-        int quantity = sc.nextInt();
+    Coffee.CoffeeOption selectedOption = coffeeOptions.get(coffeeChoice);
+    if (selectedOption == null) {
+        System.out.println("Invalid choice.");
+        return;
+    }
 
-        // Cancel transaction if quantity is 0
-        if (quantity == 0) {
+    System.out.print("Enter quantity (0 to cancel): ");
+    int quantity = sc.nextInt();
+
+    if (quantity == 0) {
         System.out.println("Transaction canceled.");
         return;
     }
-        // Add to basket
-        SaleItem item = new SaleItem(coffeeType, quantity, getCoffeePrice(coffeeType), isIced);
-        basket.add(item);
 
-        System.out.println(quantity + " " + coffeeType + "(s) added to the basket.");
-        System.out.println("Press enter to continue...");
+    // Add to basket
+    SaleItem item = new SaleItem(selectedOption.name, quantity, Coffee.getCoffeePrice(selectedOption.name), selectedOption.isIced);
+    basket.add(item);
+
+    System.out.println(quantity + " " + selectedOption.name + "(s) added to the basket.");
+    System.out.println("Press enter to continue...");
         sc.nextLine(); // Consume newline left-over
         sc.nextLine(); // Wait for user to press enter
     }
@@ -166,6 +124,7 @@ public class pointOfSales {
 
     private void deleteFromBasket() {
         Scanner sc = new Scanner(System.in);
+        cls();
        
         displayBasket();
 
@@ -185,6 +144,7 @@ public class pointOfSales {
     }
 
     private void viewBasketAndCheckout() {
+        cls();
         if (basket.isEmpty()) {
             System.out.println("Basket is empty.");
             return;
@@ -248,113 +208,12 @@ public class pointOfSales {
         }
     }
 
-    // Continuing from where we left off
-
-    private void sellCoffee(String coffeeType, int quantity, boolean isIced) {
-        // Update inventory and total sales for each item sold
-        float price = getCoffeePrice(coffeeType) * quantity;
+    public void sellCoffee(String coffeeType, int quantity, boolean isIced) {
+        float price = Coffee.getCoffeePrice(coffeeType) * quantity;
         totalSales += price;
-
-        // Adjust inventory based on recipe
-        if (isIced) {
-            switch (coffeeType) {
-                case "Iced Cafe Americano":
-                    inventory.removeItem("Coffee Beans", 22 * quantity);
-                    inventory.removeItem("16 oz Cold Cups", 1 * quantity);
-                    inventory.removeItem("Lid: Cold Lids", 1 * quantity);
-                    inventory.removeItem("Straws", 1 * quantity);
-                    break;
-                case "Iced Cafe Mocha":
-                    inventory.removeItem("Coffee Beans", 22 * quantity);
-                    inventory.removeItem("Chocolate Syrup", 15 * quantity);
-                    inventory.removeItem("Simple Syrup", 10 * quantity);
-                    inventory.removeItem("Milk", 250 * quantity);
-                    inventory.removeItem("16 oz Cold Cups", 1 * quantity);
-                    inventory.removeItem("Lid: Cold Lids", 1 * quantity);
-                    inventory.removeItem("Straws", 1 * quantity);
-                    break;
-                case "Iced Vanilla Macchiato":
-                    inventory.removeItem("Coffee Beans", 12 * quantity);
-                    inventory.removeItem("Vanilla Syrup", 15 * quantity);
-                    inventory.removeItem("Simple Syrup", 10 * quantity);
-                    inventory.removeItem("Milk", 250 * quantity);
-                    inventory.removeItem("16 oz Cold Cups", 1 * quantity);
-                    inventory.removeItem("Lid: Cold Lids", 1 * quantity);
-                    inventory.removeItem("Straws", 1 * quantity);
-                    break;
-                case "Iced Caramel Macchiato":
-                    inventory.removeItem("Coffee Beans", 12 * quantity);
-                    inventory.removeItem("Caramel Syrup", 15 * quantity);
-                    inventory.removeItem("Simple Syrup", 10 * quantity);
-                    inventory.removeItem("Milk", 250 * quantity);
-                    inventory.removeItem("16 oz Cold Cups", 1 * quantity);
-                    inventory.removeItem("Lid: Cold Lids", 1 * quantity);
-                    inventory.removeItem("Straws", 1 * quantity);
-                    break;
-                default:
-                    System.out.println("Invalid coffee type.");
-                    break;
-            }
-        } else { // Hot variants
-            switch (coffeeType) {
-                case "Hot Cafe Americano":
-                    inventory.removeItem("Coffee Beans", 20 * quantity);
-                    inventory.removeItem("16 oz Hot Cups", 1 * quantity);
-                    inventory.removeItem("Lid: Hot Lids", 1 * quantity);
-                    break;
-                case "Hot Cafe Mocha":
-                    inventory.removeItem("Coffee Beans", 20 * quantity);
-                    inventory.removeItem("Chocolate Syrup", 15 * quantity);
-                    inventory.removeItem("Simple Syrup", 10 * quantity);
-                    inventory.removeItem("Milk", 250 * quantity);
-                    inventory.removeItem("16 oz Hot Cups", 1 * quantity);
-                    inventory.removeItem("Lid: Hot Lids", 1 * quantity);
-                    break;
-                case "Hot Vanilla Macchiato":
-                    inventory.removeItem("Coffee Beans", 10 * quantity);
-                    inventory.removeItem("Vanilla Syrup", 15 * quantity);
-                    inventory.removeItem("Simple Syrup", 10 * quantity);
-                    inventory.removeItem("Milk", 250 * quantity);
-                    inventory.removeItem("16 oz Hot Cups", 1 * quantity);
-                    inventory.removeItem("Lid: Hot Lids", 1 * quantity);
-                    break;
-                case "Hot Caramel Macchiato":
-                    inventory.removeItem("Coffee Beans", 10 * quantity);
-                    inventory.removeItem("Caramel Syrup", 15 * quantity);
-                    inventory.removeItem("Simple Syrup", 10 * quantity);
-                    inventory.removeItem("Milk", 250 * quantity);
-                    inventory.removeItem("16 oz Hot Cups", 1 * quantity);
-                    inventory.removeItem("Lid: Hot Lids", 1 * quantity);
-                    break;
-                default:
-                    System.out.println("Invalid coffee type.");
-                    break;
-            }
-        }
-    }
-
-    private float getCoffeePrice(String coffeeType) {
-        // Placeholder prices. Adjust these based on actual prices.
-        switch (coffeeType) {
-            case "Iced Cafe Americano":
-                return 120.0f;
-            case "Hot Cafe Americano":
-                return 110.0f;
-            case "Iced Cafe Mocha":
-                return 170.0f;
-            case "Hot Cafe Mocha":
-                return 160.0f;
-            case "Iced Vanilla Macchiato":
-                return 170.0f;
-            case "Hot Vanilla Macchiato":
-                return 160.0f;
-            case "Iced Caramel Macchiato":
-                return 190.0f;
-            case "Hot Caramel Macchiato":
-                return 180.0f;
-            default:
-                return 0.0f;
-        }
+    
+        Coffee coffee = new Coffee(coffeeType, quantity, price / quantity, isIced);
+        coffee.createCoffee(inventory, quantity);
     }
 
     // Inner class to represent an item in the basket
