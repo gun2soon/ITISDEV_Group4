@@ -185,6 +185,15 @@ public class InventoryManagement {
         }
     }
     
+    public float getItemCost(String itemName) {
+        for (InventoryItem item : inventory) {
+            if (item.getName().equals(itemName)) {
+                return item.getCost();
+            }
+        }
+        return 0.0f; // Return 0 if item not found
+    }
+
     public int List_inventory() {
         Connection conn = null;
         try {
