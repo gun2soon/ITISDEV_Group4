@@ -65,5 +65,6 @@ public class transactionSummary {
                 System.out.println("Invalid choice.");
                 break;
         }
+        sc.close();
     }
 }
