@@ -37,6 +37,7 @@ public class InventoryView {
         buttonPanel.add(exitButton);
 
         frame.add(buttonPanel, BorderLayout.SOUTH);
+        frame.setLocationRelativeTo(null); // Center the frame
     }
 
     

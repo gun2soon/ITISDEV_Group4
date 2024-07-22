@@ -1,12 +1,13 @@
 import java.util.Scanner;
-import java.sql.*;
 
 public class driver {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         InventoryManagement inventory = new InventoryManagement();
         pointOfSales POS = new pointOfSales(inventory);
-
+        InventoryView imsview = new InventoryView();
+        MenuView menuView = new MenuView();
+        
         // Add items to inventory
         // inventory.addItem(new CoffeeBeans(1000, 2200));
         // inventory.addItem(new Syrup("Chocolate", 750, 550));
@@ -21,9 +22,12 @@ public class driver {
         // inventory.addItem(new Straws(100, 100));
         inventory.List_inventory();
 
-        InventoryView imsview = new InventoryView();
-        InventoryController imscontroller = new InventoryController(inventory, imsview);
-        imsview.getFrame().setVisible(true);
+        MenuController menuController = new MenuController(menuView, inventory, imsview);
+        menuView.getFrame().setVisible(true);
+
+        // InventoryView imsview = new InventoryView();
+        // InventoryController imscontroller = new InventoryController(inventory, imsview);
+        // imsview.getFrame().setVisible(true);
 
         
         int choice = 0;

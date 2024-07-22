@@ -1,16 +1,18 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 public class InventoryController {
     private InventoryManagement imsmodel;
     private InventoryView imsview;
+    private MenuView menuView;
 
-    public InventoryController(InventoryManagement model, InventoryView view) {
+    public InventoryController(InventoryManagement model, InventoryView view, MenuView menuView) {
         this.imsmodel = model;
         this.imsview = view;
+        this.menuView = menuView;
 
         view.getUpdateButton().addActionListener(new ActionListener() {
             @Override
@@ -23,6 +25,8 @@ public class InventoryController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 view.getFrame().dispose();
+                menuView.getFrame().setVisible(true);
+
             }
         });
 
