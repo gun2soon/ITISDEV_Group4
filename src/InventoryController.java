@@ -96,6 +96,7 @@ public class InventoryController {
         buttonPanel.add(cancelButton);
 
         dialog.add(buttonPanel, BorderLayout.SOUTH);
+        
 
         updateButton.addActionListener(new ActionListener() {
             @Override
