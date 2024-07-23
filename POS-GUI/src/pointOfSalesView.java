@@ -35,10 +35,10 @@ public class pointOfSalesView extends JFrame {
         };
 
         String[] imagePaths = {
-                "iced-Americano.png", "hot-americano.png", 
-                "iced-mocha.png", "hot-mocha.png", 
-                "iced-vanilla.png","hot-vanilla.png", 
-                "iced-caramelM.png", "hot-caramelM.png"
+                "resources/iced-Americano.png", "resources/hot-americano.png", 
+                "resources/iced-mocha.png", "resources/hot-mocha.png", 
+                "resources/iced-vanilla.png","resources/hot-vanilla.png", 
+                "resources/iced-caramelM.png", "resources/hot-caramelM.png"
         };
 
         menuLabels = new JLabel[menuItems.length];
