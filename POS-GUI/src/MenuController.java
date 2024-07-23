@@ -28,6 +28,7 @@ public class MenuController implements ActionListener {
         } else if (source.equals(menuView.getPosButton())) { // Add this condition
             openPOS();
             menuView.getFrame().dispose();
+            menuView.getFrame().dispose();
         } else if (source.equals(menuView.getExitButton())) {
             System.exit(0);
         }
@@ -35,7 +36,7 @@ public class MenuController implements ActionListener {
 
     private void openPOS() {
         pointOfSalesView view = new pointOfSalesView();
-        new pointOfSalesController(pos, view, inventory);
+        new pointOfSalesController(pos, view, inventory, menuView);
         view.setVisible(true);
     }
 

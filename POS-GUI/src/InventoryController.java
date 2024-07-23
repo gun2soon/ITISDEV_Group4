@@ -137,7 +137,8 @@ public class InventoryController {
                 dialog.dispose();
             }
         });
-
+        
+        dialog.setLocationRelativeTo(null);  
         dialog.setVisible(true);
     }
 

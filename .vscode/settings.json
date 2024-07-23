@@ -1,0 +1,6 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "POS-GUI/mysql-connector-java-9.0.0.jar"
+    ]
+}

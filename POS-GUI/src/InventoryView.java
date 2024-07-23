@@ -36,6 +36,7 @@ public class InventoryView {
         buttonPanel.add(updateButton);
         buttonPanel.add(exitButton);
 
+        frame.setLocationRelativeTo(null);
         frame.add(buttonPanel, BorderLayout.SOUTH);
     }
 

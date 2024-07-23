@@ -3,18 +3,19 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
-
 import javax.swing.*;
 
 public class pointOfSalesController {
     private pointOfSales model;
     private pointOfSalesView view;
     private InventoryManagement inventory;
+    private MenuView menuView;
 
-    public pointOfSalesController(pointOfSales model, pointOfSalesView view, InventoryManagement inventory) {
+    public pointOfSalesController(pointOfSales model, pointOfSalesView view, InventoryManagement inventory, MenuView menuView) {
         this.model = model;
         this.view = view;
         this.inventory = inventory;
+        this.menuView = menuView;
 
         this.view.setMenuLabelListener(new MenuLabelListener());
         this.view.setDeleteButtonListener(new DeleteButtonListener());
@@ -220,7 +221,8 @@ public class pointOfSalesController {
     
     class ExitButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            System.exit(0);
+            view.dispose();
+            menuView.getFrame().setVisible(true); // Show the menu view frame
         }
     }
 }
