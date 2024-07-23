@@ -152,7 +152,7 @@ public class pointOfSalesController {
 
             // Calculate cost from inventory
             float cost = calculateInventoryCost(item.getCoffeeType(), item.getQuantity());
-            totalCost += cost;
+            //totalCost += cost;
 
             // Calculate profit
             float profit = totalPrice - totalCost;
