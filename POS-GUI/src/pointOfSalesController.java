@@ -145,19 +145,19 @@ public class pointOfSalesController {
 
         // Calculate total price
         float totalPrice = 0;
-        float totalCost = 0;
+        //float totalCost = 0;
 
         for (SaleItem item : basket) {
             totalPrice += item.getQuantity() * item.getPrice();
 
             // Calculate cost from inventory
-            float cost = calculateInventoryCost(item.getCoffeeType(), item.getQuantity());
+            float profit = calculateInventoryCost(item.getCoffeeType(), item.getQuantity());
             //totalCost += cost;
 
             // Calculate profit
-            float profit = totalPrice - totalCost;
+            float cost = item.getPrice();
 
-            model.addTransaction(item.getCoffeeType(), profit, cost);
+            model.addTransaction(item.getCoffeeType(), cost, profit);
         }
 
         // Ask if the user has a discount

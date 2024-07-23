@@ -175,8 +175,8 @@ public class pointOfSales {
             }
         }
 
-public void addTransaction(String coffeeType, float profit, float cost) {
-    transactionSummary.addTransaction(coffeeType, profit, cost);
+public void addTransaction(String coffeeType, float cost, float profit) {
+    transactionSummary.addTransaction(coffeeType, cost, profit);
 }
 
 public String getTransactionSummary() {
