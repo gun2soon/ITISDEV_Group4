@@ -142,9 +142,10 @@ public class pointOfSalesController {
                             for (SaleItem item : basket) {
                                 model.sellCoffee(item.getCoffeeType(), item.getQuantity(), item.isIced());
                             }
-                            model.clearBasket();
-                            view.getBasketTableModel().setRowCount(0);
                         }*/
+
+                        model.clearBasket();
+                        view.getBasketTableModel().setRowCount(0);
                     }
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(view, "Invalid amount entered.");
