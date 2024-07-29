@@ -59,80 +59,6 @@ public class pointOfSalesController {
         }
     }
 
-    public float calculateInventoryCost(String coffeeType, int quantity) {
-        // Define cost based on coffee type and quantity
-        float cost = 0.0f;
-    
-        // Define the inventory cost requirements for each coffee type
-        switch (coffeeType) {
-            case "Iced Cafe Americano":
-                cost += inventory.getItemCost("Coffee Beans") * 22 * quantity;
-                cost += inventory.getItemCost("16 oz Cold Cups") * 1 * quantity;
-                cost += inventory.getItemCost("Lid: Cold Lids") * 1 * quantity;
-                cost += inventory.getItemCost("Straws") * 1 * quantity;
-                break;
-            case "Iced Cafe Mocha":
-                cost += inventory.getItemCost("Coffee Beans") * 22 * quantity;
-                cost += inventory.getItemCost("Chocolate Syrup") * 15 * quantity;
-                cost += inventory.getItemCost("Simple Syrup") * 10 * quantity;
-                cost += inventory.getItemCost("Milk") * 250 * quantity;
-                cost += inventory.getItemCost("16 oz Cold Cups") * 1 * quantity;
-                cost += inventory.getItemCost("Lid: Cold Lids") * 1 * quantity;
-                cost += inventory.getItemCost("Straws") * 1 * quantity;
-                break;
-            case "Iced Vanilla Macchiato":
-                cost += inventory.getItemCost("Coffee Beans") * 12 * quantity;
-                cost += inventory.getItemCost("Vanilla Syrup") * 15 * quantity;
-                cost += inventory.getItemCost("Simple Syrup") * 10 * quantity;
-                cost += inventory.getItemCost("Milk") * 250 * quantity;
-                cost += inventory.getItemCost("16 oz Cold Cups") * 1 * quantity;
-                cost += inventory.getItemCost("Lid: Cold Lids") * 1 * quantity;
-                cost += inventory.getItemCost("Straws") * 1 * quantity;
-                break;
-            case "Iced Caramel Macchiato":
-                cost += inventory.getItemCost("Coffee Beans") * 12 * quantity;
-                cost += inventory.getItemCost("Caramel Syrup") * 15 * quantity;
-                cost += inventory.getItemCost("Simple Syrup") * 10 * quantity;
-                cost += inventory.getItemCost("Milk") * 250 * quantity;
-                cost += inventory.getItemCost("16 oz Cold Cups") * 1 * quantity;
-                cost += inventory.getItemCost("Lid: Cold Lids") * 1 * quantity;
-                cost += inventory.getItemCost("Straws") * 1 * quantity;
-                break;
-            case "Hot Cafe Americano":
-                cost += inventory.getItemCost("Coffee Beans") * 20 * quantity;
-                cost += inventory.getItemCost("16 oz Hot Cups") * 1 * quantity;
-                cost += inventory.getItemCost("Lid: Hot Lids") * 1 * quantity;
-                break;
-            case "Hot Cafe Mocha":
-                cost += inventory.getItemCost("Coffee Beans") * 20 * quantity;
-                cost += inventory.getItemCost("Chocolate Syrup") * 15 * quantity;
-                cost += inventory.getItemCost("Simple Syrup") * 10 * quantity;
-                cost += inventory.getItemCost("Milk") * 250 * quantity;
-                cost += inventory.getItemCost("16 oz Hot Cups") * 1 * quantity;
-                cost += inventory.getItemCost("Lid: Hot Lids") * 1 * quantity;
-                break;
-            case "Hot Vanilla Macchiato":
-                cost += inventory.getItemCost("Coffee Beans") * 10 * quantity;
-                cost += inventory.getItemCost("Vanilla Syrup") * 15 * quantity;
-                cost += inventory.getItemCost("Simple Syrup") * 10 * quantity;
-                cost += inventory.getItemCost("Milk") * 250 * quantity;
-                cost += inventory.getItemCost("16 oz Hot Cups") * 1 * quantity;
-                cost += inventory.getItemCost("Lid: Hot Lids") * 1 * quantity;
-                break;
-            case "Hot Caramel Macchiato":
-                cost += inventory.getItemCost("Coffee Beans") * 10 * quantity;
-                cost += inventory.getItemCost("Caramel Syrup") * 15 * quantity;
-                cost += inventory.getItemCost("Simple Syrup") * 10 * quantity;
-                cost += inventory.getItemCost("Milk") * 250 * quantity;
-                cost += inventory.getItemCost("16 oz Hot Cups") * 1 * quantity;
-                cost += inventory.getItemCost("Lid: Hot Lids") * 1 * quantity;
-                break;
-            default:
-                System.out.println("Invalid coffee type.");
-                break;
-        }
-        return cost;
-    }
     
     class CheckoutButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
@@ -176,11 +102,18 @@ public class pointOfSalesController {
                     }
                     System.out.println("Applying a 20% discount on the most expensive item: Php -" + discountAmount);
                     basketTotal -= discountAmount;
+
+                    String formattedDiscountAmount = String.format("%.2f", -discountAmount);
+                    view.addToBasketTable("Discount (20%)", formattedDiscountAmount);
                 }
             }
+
+            view.addBlankLine();
+
+            String formattedTotalPrice = String.format("%.2f", basketTotal);
+            view.addToBasketTable("Total Price", formattedTotalPrice);
     
             System.out.println("\nTotal Price: Php " + basketTotal);
-            String formattedTotalPrice = String.format("%.2f", basketTotal);
     
             // Ask for the amount paid
             String amountPaidStr = JOptionPane.showInputDialog(view, 
@@ -201,7 +134,7 @@ public class pointOfSalesController {
                                 "\nChange: " + formattedChange);
     
                         // Confirm checkout
-                        int confirmOption = JOptionPane.showConfirmDialog(view, 
+                        /*int confirmOption = JOptionPane.showConfirmDialog(view, 
                                 "Confirm checkout?", 
                                 "Checkout", 
                                 JOptionPane.YES_NO_OPTION);
@@ -211,7 +144,7 @@ public class pointOfSalesController {
                             }
                             model.clearBasket();
                             view.getBasketTableModel().setRowCount(0);
-                        }
+                        }*/
                     }
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(view, "Invalid amount entered.");
