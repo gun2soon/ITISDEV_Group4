@@ -135,77 +135,89 @@ public class pointOfSalesController {
     }
     
     class CheckoutButtonListener implements ActionListener {
-    public void actionPerformed(ActionEvent e) {
-        // Get all items in the basket
-        List<SaleItem> basket = model.getBasket();
-        if (basket.isEmpty()) {
-            JOptionPane.showMessageDialog(view, "Basket is empty.");
-            return;
-        }
-
-        // Calculate total price
-        float totalPrice = 0;
-        //float totalCost = 0;
-
-        for (SaleItem item : basket) {
-            totalPrice += item.getQuantity() * item.getPrice();
-
-            // Calculate cost from inventory
-            float profit = calculateInventoryCost(item.getCoffeeType(), item.getQuantity());
-            //totalCost += cost;
-
-            // Calculate profit
-            float cost = item.getPrice();
-
-            model.addTransaction(item.getCoffeeType(), cost, profit);
-        }
-
-        // Ask if the user has a discount
-        int discountOption = JOptionPane.showConfirmDialog(view, 
-                "Do you have a discount? (20% off)", 
-                "Discount", 
-                JOptionPane.YES_NO_OPTION);
-
-        // Apply discount if applicable
-        float discountAmount = 0;
-        if (discountOption == JOptionPane.YES_OPTION) {
-            discountAmount = totalPrice * 0.20f; // Calculate 20% discount
-            totalPrice -= discountAmount;
-            String formattedDiscountAmount = String.format("%.2f", -discountAmount);
-            view.addToBasketTable("Discount (20%)", formattedDiscountAmount);
-        }
-
-        view.addBlankLine();
-
-        String formattedTotalPrice = String.format("%.2f", totalPrice);
-        view.addToBasketTable("Total Price", formattedTotalPrice);
-
-        // Ask for the amount paid
-        String amountPaidStr = JOptionPane.showInputDialog(view, 
-                "Enter amount paid by customer:");
-        if (amountPaidStr != null) {
-            try {
-                float amountPaid = Float.parseFloat(amountPaidStr);
-
-                if (amountPaid < totalPrice) {
-                    JOptionPane.showMessageDialog(view, 
-                            "Insufficient amount. Total price is: " + formattedTotalPrice);
-                } else {
-                    float change = amountPaid - totalPrice;
-                    String formattedChange = String.format("%.2f", change);
-                    JOptionPane.showMessageDialog(view, 
-                            "Total Price: " + formattedTotalPrice + "\nAmount Paid: " + amountPaid + 
-                            "\nChange: " + formattedChange);
-                    
-                    // Clear the basket after checkout
-                    model.clearBasket();
-                    view.getBasketTableModel().setRowCount(0);
+        public void actionPerformed(ActionEvent e) {
+            // Get all items in the basket
+            List<SaleItem> basket = model.getBasket();
+            
+            if (basket.isEmpty()) {
+                JOptionPane.showMessageDialog(view, "Basket is empty.");
+                return;
+            }
+    
+            // Print current basket
+            System.out.println("Current Basket:");
+            float basketTotal = 0.0f;
+            float maxPrice = 0.0f;
+            int maxPriceIndex = -1;
+    
+            for (int i = 0; i < basket.size(); i++) {
+                SaleItem item = basket.get(i);
+                System.out.println("[" + (i + 1) + "] " + item);
+                basketTotal += item.getPrice();
+                if (item.getPrice() > maxPrice) {
+                    maxPrice = item.getPrice();
+                    maxPriceIndex = i;
                 }
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(view, "Invalid amount entered.");
+            }
+    
+            // Ask if the user has a discount
+            int discountOption = JOptionPane.showConfirmDialog(view, 
+                    "Do you have a discount? (20% off)", 
+                    "Discount", 
+                    JOptionPane.YES_NO_OPTION);
+    
+            // Apply discount if applicable
+            float discountAmount = 0;
+            if (discountOption == JOptionPane.YES_OPTION) {
+                if (maxPriceIndex != -1) {
+                    discountAmount = maxPrice * 0.2f;
+                    if (basketTotal < discountAmount) {
+                        discountAmount = basketTotal; // Ensure discount doesn't exceed total price
+                    }
+                    System.out.println("Applying a 20% discount on the most expensive item: Php -" + discountAmount);
+                    basketTotal -= discountAmount;
+                }
+            }
+    
+            System.out.println("\nTotal Price: Php " + basketTotal);
+            String formattedTotalPrice = String.format("%.2f", basketTotal);
+    
+            // Ask for the amount paid
+            String amountPaidStr = JOptionPane.showInputDialog(view, 
+                    "Enter amount paid by customer:");
+            if (amountPaidStr != null) {
+                try {
+                    float amountPaid = Float.parseFloat(amountPaidStr);
+    
+                    if (amountPaid < basketTotal) {
+                        JOptionPane.showMessageDialog(view, 
+                                "Insufficient amount. Total price is: " + formattedTotalPrice);
+                    } else {
+                        // Calculate change
+                        float change = amountPaid - basketTotal;
+                        String formattedChange = String.format("%.2f", change);
+                        JOptionPane.showMessageDialog(view, 
+                                "Total Price: " + formattedTotalPrice + "\nAmount Paid: " + amountPaid + 
+                                "\nChange: " + formattedChange);
+    
+                        // Confirm checkout
+                        int confirmOption = JOptionPane.showConfirmDialog(view, 
+                                "Confirm checkout?", 
+                                "Checkout", 
+                                JOptionPane.YES_NO_OPTION);
+                        if (confirmOption == JOptionPane.YES_OPTION) {
+                            for (SaleItem item : basket) {
+                                model.sellCoffee(item.getCoffeeType(), item.getQuantity(), item.isIced());
+                            }
+                            model.clearBasket();
+                            view.getBasketTableModel().setRowCount(0);
+                        }
+                    }
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(view, "Invalid amount entered.");
+                }
             }
         }
-    }
     }
 
     class TransactionSummaryListener implements ActionListener {
