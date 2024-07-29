@@ -144,6 +144,10 @@ public class pointOfSalesController {
                             }
                         }*/
 
+                        for (SaleItem item : basket) {
+                            model.sellCoffee(item.getCoffeeType(), item.getQuantity(), item.isIced());
+                         }
+
                         model.clearBasket();
                         view.getBasketTableModel().setRowCount(0);
                     }
