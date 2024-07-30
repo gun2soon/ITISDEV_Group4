@@ -200,7 +200,7 @@ public class InventoryManagement {
             Class.forName("com.mysql.cj.jdbc.Driver");
     
             String jdbcURL = "jdbc:mysql://localhost:3306/inventory?useSSL=false&serverTimezone=UTC";
-            conn = DriverManager.getConnection(jdbcURL, "root", "YES");
+            conn = DriverManager.getConnection(jdbcURL, "root", "");
             System.out.println("Connected successfully");
     
             // 2. Prepare our SQL Statement of coffeebeans database
@@ -321,7 +321,7 @@ public class InventoryManagement {
             // Connect to our database
             Class.forName("com.mysql.cj.jdbc.Driver");
             String jdbcURL = "jdbc:mysql://localhost:3306/inventory?useSSL=false&serverTimezone=UTC";
-            conn = DriverManager.getConnection(jdbcURL, "root", "YES");
+            conn = DriverManager.getConnection(jdbcURL, "root", "");
             System.out.println("Connected successfully");
     
             // Prepare our SQL Statement

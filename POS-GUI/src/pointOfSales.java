@@ -113,12 +113,12 @@ public class pointOfSales {
                 System.out.println("Basket is empty.");
                 return;
             }
-        
+    
             System.out.println("Current Basket:");
             float basketTotal = 0.0f;
             float maxPrice = 0.0f;
             int maxPriceIndex = -1;
-        
+    
             for (int i = 0; i < basket.size(); i++) {
                 SaleItem item = basket.get(i);
                 System.out.println("[" + (i + 1) + "] " + item);
@@ -128,42 +128,33 @@ public class pointOfSales {
                     maxPriceIndex = i;
                 }
             }
-        
-            // Ask if they have a discount
+    
             Scanner sc = new Scanner(System.in);
             System.out.print("Do you have a discount? [Y/N]: ");
             String discountResponse = sc.next();
-        
-            if (discountResponse.equalsIgnoreCase("Y")) {
-                if (maxPriceIndex != -1) {
-                    float discountAmount = maxPrice * 0.2f;
-                    if (basketTotal < discountAmount) {
-                        discountAmount = basketTotal; // Ensure discount doesn't exceed total price
-                    }
-                    System.out.println("Applying a 20% discount on the most expensive item: Php -" + discountAmount);
-                    basketTotal -= discountAmount;
-                }
+    
+            if (discountResponse.equalsIgnoreCase("Y") && maxPriceIndex != -1) {
+                float discountAmount = maxPrice * 0.2f;
+                System.out.println("Applying a 20% discount on the most expensive item: Php -" + discountAmount);
+                basketTotal -= discountAmount;
             }
-        
+    
             System.out.println("\nTotal Price: Php " + basketTotal);
-        
-            // Payment handling
+    
             System.out.print("Enter amount paid: ");
             float amountPaid = sc.nextFloat();
-        
+    
             if (amountPaid < basketTotal) {
                 System.out.println("Insufficient payment.");
                 return;
             }
-        
-            // Calculate change
+    
             float change = amountPaid - basketTotal;
             System.out.println("Change: Php " + change);
-        
-            // Confirm checkout
+    
             System.out.print("Confirm checkout [Y/N]? ");
             String confirm = sc.next();
-        
+    
             if (confirm.equalsIgnoreCase("Y")) {
                 for (SaleItem item : basket) {
                     float cost = getCoffeePrice(item.getCoffeeType()) * item.getQuantity();
@@ -175,133 +166,124 @@ public class pointOfSales {
             }
         }
 
-public void addTransaction(String coffeeType, float cost, float profit) {
-    transactionSummary.addTransaction(coffeeType, cost, profit);
-}
-
-public String getTransactionSummary() {
-    return transactionSummary.getSummary();
-}
-
-public void clearBasket() {
-    basket.clear();
-}
-
-public float calculateInventoryCost(String coffeeType, int quantity) {
-    // Define cost based on coffee type and quantity
-    float cost = 0.0f;
-
-    // Define the inventory cost requirements for each coffee type
-    switch (coffeeType) {
-        case "Iced Cafe Americano":
-            cost += inventory.getItemCost("Coffee Beans") * 22 * quantity;
-            cost += inventory.getItemCost("16 oz Cold Cups") * 1 * quantity;
-            cost += inventory.getItemCost("Lid: Cold Lids") * 1 * quantity;
-            cost += inventory.getItemCost("Straws") * 1 * quantity;
-            break;
-        case "Iced Cafe Mocha":
-            cost += inventory.getItemCost("Coffee Beans") * 22 * quantity;
-            cost += inventory.getItemCost("Chocolate Syrup") * 15 * quantity;
-            cost += inventory.getItemCost("Simple Syrup") * 10 * quantity;
-            cost += inventory.getItemCost("Milk") * 250 * quantity;
-            cost += inventory.getItemCost("16 oz Cold Cups") * 1 * quantity;
-            cost += inventory.getItemCost("Lid: Cold Lids") * 1 * quantity;
-            cost += inventory.getItemCost("Straws") * 1 * quantity;
-            break;
-        case "Iced Vanilla Macchiato":
-            cost += inventory.getItemCost("Coffee Beans") * 12 * quantity;
-            cost += inventory.getItemCost("Vanilla Syrup") * 15 * quantity;
-            cost += inventory.getItemCost("Simple Syrup") * 10 * quantity;
-            cost += inventory.getItemCost("Milk") * 250 * quantity;
-            cost += inventory.getItemCost("16 oz Cold Cups") * 1 * quantity;
-            cost += inventory.getItemCost("Lid: Cold Lids") * 1 * quantity;
-            cost += inventory.getItemCost("Straws") * 1 * quantity;
-            break;
-        case "Iced Caramel Macchiato":
-            cost += inventory.getItemCost("Coffee Beans") * 12 * quantity;
-            cost += inventory.getItemCost("Caramel Syrup") * 15 * quantity;
-            cost += inventory.getItemCost("Simple Syrup") * 10 * quantity;
-            cost += inventory.getItemCost("Milk") * 250 * quantity;
-            cost += inventory.getItemCost("16 oz Cold Cups") * 1 * quantity;
-            cost += inventory.getItemCost("Lid: Cold Lids") * 1 * quantity;
-            cost += inventory.getItemCost("Straws") * 1 * quantity;
-            break;
-        case "Hot Cafe Americano":
-            cost += inventory.getItemCost("Coffee Beans") * 20 * quantity;
-            cost += inventory.getItemCost("16 oz Hot Cups") * 1 * quantity;
-            cost += inventory.getItemCost("Lid: Hot Lids") * 1 * quantity;
-            break;
-        case "Hot Cafe Mocha":
-            cost += inventory.getItemCost("Coffee Beans") * 20 * quantity;
-            cost += inventory.getItemCost("Chocolate Syrup") * 15 * quantity;
-            cost += inventory.getItemCost("Simple Syrup") * 10 * quantity;
-            cost += inventory.getItemCost("Milk") * 250 * quantity;
-            cost += inventory.getItemCost("16 oz Hot Cups") * 1 * quantity;
-            cost += inventory.getItemCost("Lid: Hot Lids") * 1 * quantity;
-            break;
-        case "Hot Vanilla Macchiato":
-            cost += inventory.getItemCost("Coffee Beans") * 10 * quantity;
-            cost += inventory.getItemCost("Vanilla Syrup") * 15 * quantity;
-            cost += inventory.getItemCost("Simple Syrup") * 10 * quantity;
-            cost += inventory.getItemCost("Milk") * 250 * quantity;
-            cost += inventory.getItemCost("16 oz Hot Cups") * 1 * quantity;
-            cost += inventory.getItemCost("Lid: Hot Lids") * 1 * quantity;
-            break;
-        case "Hot Caramel Macchiato":
-            cost += inventory.getItemCost("Coffee Beans") * 10 * quantity;
-            cost += inventory.getItemCost("Caramel Syrup") * 15 * quantity;
-            cost += inventory.getItemCost("Simple Syrup") * 10 * quantity;
-            cost += inventory.getItemCost("Milk") * 250 * quantity;
-            cost += inventory.getItemCost("16 oz Hot Cups") * 1 * quantity;
-            cost += inventory.getItemCost("Lid: Hot Lids") * 1 * quantity;
-            break;
-        default:
-            System.out.println("Invalid coffee type.");
-            break;
-    }
-    return cost;
-}
-
-
-public void sellCoffee(String coffeeType, int quantity, boolean isIced) {
-    float price = getCoffeePrice(coffeeType) * quantity;
-    totalSales += price;
-
-    // Calculate cost from inventory
-    float cost = calculateInventoryCost(coffeeType, quantity);
-
-    // Calculate profit
-    float profit = price - cost;
-
-    Coffee coffee = new Coffee(coffeeType, quantity, price / quantity, isIced);
-    coffee.createCoffee(inventory, quantity);
-
-    // Record the transaction
-    transactionSummary.addTransaction(coffeeType, price, profit);
-}
-
-public float getCoffeePrice(String coffeeType) {
-    switch (coffeeType) {
-        case "Iced Cafe Americano":
-            return 120.0f;
-        case "Hot Cafe Americano":
-            return 110.0f;
-        case "Iced Cafe Mocha":
-            return 170.0f;
-        case "Hot Cafe Mocha":
-                return 160.0f;
-        case "Iced Vanilla Macchiato":
-            return 170.0f;
-        case "Hot Vanilla Macchiato":
-            return 160.0f;
-        case "Iced Caramel Macchiato":
-            return 190.0f;
-        case "Hot Caramel Macchiato":
-            return 180.0f;
-        default:
-            return 0.0f;
+        public void addTransaction(String coffeeType, float cost, float profit) {
+            transactionSummary.addTransaction(coffeeType, cost, profit);
         }
-    }
+    
+        public void clearBasket() {
+            basket.clear();
+        }
+    
+        public float calculateInventoryCost(String coffeeType, int quantity) {
+            float cost = 0.0f;
+    
+            switch (coffeeType) {
+                case "Iced Cafe Americano":
+                    cost += inventory.getItemCost("Coffee Beans") * 22 * quantity;
+                    cost += inventory.getItemCost("16 oz Cold Cups") * 1 * quantity;
+                    cost += inventory.getItemCost("Lid: Cold Lids") * 1 * quantity;
+                    cost += inventory.getItemCost("Straws") * 1 * quantity;
+                    break;
+                case "Iced Cafe Mocha":
+                    cost += inventory.getItemCost("Coffee Beans") * 22 * quantity;
+                    cost += inventory.getItemCost("Chocolate Syrup") * 15 * quantity;
+                    cost += inventory.getItemCost("Simple Syrup") * 10 * quantity;
+                    cost += inventory.getItemCost("Milk") * 250 * quantity;
+                    cost += inventory.getItemCost("16 oz Cold Cups") * 1 * quantity;
+                    cost += inventory.getItemCost("Lid: Cold Lids") * 1 * quantity;
+                    cost += inventory.getItemCost("Straws") * 1 * quantity;
+                    break;
+                case "Iced Vanilla Macchiato":
+                    cost += inventory.getItemCost("Coffee Beans") * 12 * quantity;
+                    cost += inventory.getItemCost("Vanilla Syrup") * 15 * quantity;
+                    cost += inventory.getItemCost("Simple Syrup") * 10 * quantity;
+                    cost += inventory.getItemCost("Milk") * 250 * quantity;
+                    cost += inventory.getItemCost("16 oz Cold Cups") * 1 * quantity;
+                    cost += inventory.getItemCost("Lid: Cold Lids") * 1 * quantity;
+                    cost += inventory.getItemCost("Straws") * 1 * quantity;
+                    break;
+                case "Iced Caramel Macchiato":
+                    cost += inventory.getItemCost("Coffee Beans") * 12 * quantity;
+                    cost += inventory.getItemCost("Caramel Syrup") * 15 * quantity;
+                    cost += inventory.getItemCost("Simple Syrup") * 10 * quantity;
+                    cost += inventory.getItemCost("Milk") * 250 * quantity;
+                    cost += inventory.getItemCost("16 oz Cold Cups") * 1 * quantity;
+                    cost += inventory.getItemCost("Lid: Cold Lids") * 1 * quantity;
+                    cost += inventory.getItemCost("Straws") * 1 * quantity;
+                    break;
+                case "Hot Cafe Americano":
+                    cost += inventory.getItemCost("Coffee Beans") * 20 * quantity;
+                    cost += inventory.getItemCost("16 oz Hot Cups") * 1 * quantity;
+                    cost += inventory.getItemCost("Lid: Hot Lids") * 1 * quantity;
+                    break;
+                case "Hot Cafe Mocha":
+                    cost += inventory.getItemCost("Coffee Beans") * 20 * quantity;
+                    cost += inventory.getItemCost("Chocolate Syrup") * 15 * quantity;
+                    cost += inventory.getItemCost("Simple Syrup") * 10 * quantity;
+                    cost += inventory.getItemCost("Milk") * 250 * quantity;
+                    cost += inventory.getItemCost("16 oz Hot Cups") * 1 * quantity;
+                    cost += inventory.getItemCost("Lid: Hot Lids") * 1 * quantity;
+                    break;
+                case "Hot Vanilla Macchiato":
+                    cost += inventory.getItemCost("Coffee Beans") * 10 * quantity;
+                    cost += inventory.getItemCost("Vanilla Syrup") * 15 * quantity;
+                    cost += inventory.getItemCost("Simple Syrup") * 10 * quantity;
+                    cost += inventory.getItemCost("Milk") * 250 * quantity;
+                    cost += inventory.getItemCost("16 oz Hot Cups") * 1 * quantity;
+                    cost += inventory.getItemCost("Lid: Hot Lids") * 1 * quantity;
+                    break;
+                case "Hot Caramel Macchiato":
+                    cost += inventory.getItemCost("Coffee Beans") * 10 * quantity;
+                    cost += inventory.getItemCost("Caramel Syrup") * 15 * quantity;
+                    cost += inventory.getItemCost("Simple Syrup") * 10 * quantity;
+                    cost += inventory.getItemCost("Milk") * 250 * quantity;
+                    cost += inventory.getItemCost("16 oz Hot Cups") * 1 * quantity;
+                    cost += inventory.getItemCost("Lid: Hot Lids") * 1 * quantity;
+                    break;
+                default:
+                    System.out.println("Invalid coffee type.");
+                    break;
+            }
+            return cost;
+        }
+    
+
+
+        public void sellCoffee(String coffeeType, int quantity, boolean isIced) {
+            float price = getCoffeePrice(coffeeType) * quantity;
+            totalSales += price;
+    
+            float cost = calculateInventoryCost(coffeeType, quantity);
+            float profit = price - cost;
+    
+            Coffee coffee = new Coffee(coffeeType, quantity, price / quantity, isIced);
+            coffee.createCoffee(inventory, quantity);
+    
+            transactionSummary.addTransaction(coffeeType, price, profit);
+        }
+    
+        public float getCoffeePrice(String coffeeType) {
+            switch (coffeeType) {
+                case "Iced Cafe Americano":
+                    return 120.0f;
+                case "Hot Cafe Americano":
+                    return 110.0f;
+                case "Iced Cafe Mocha":
+                    return 170.0f;
+                case "Hot Cafe Mocha":
+                    return 160.0f;
+                case "Iced Vanilla Macchiato":
+                    return 170.0f;
+                case "Hot Vanilla Macchiato":
+                    return 160.0f;
+                case "Iced Caramel Macchiato":
+                    return 190.0f;
+                case "Hot Caramel Macchiato":
+                    return 180.0f;
+                default:
+                    return 0.0f;
+            }
+        }
 }
 
 
