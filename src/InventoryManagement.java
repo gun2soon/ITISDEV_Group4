@@ -196,7 +196,7 @@ public class InventoryManagement {
     //Added code 
     private static final String JDBC_URL = "jdbc:mysql://localhost:3306/inventory?useSSL=false&serverTimezone=UTC";
     private static final String JDBC_USER = "root";
-    private static final String JDBC_PASSWORD = "12345";
+    private static final String JDBC_PASSWORD = "YES";
 
     public int List_inventory() {
         Connection conn = null;
@@ -324,7 +324,7 @@ public class InventoryManagement {
             // Connect to our database
             Class.forName("com.mysql.cj.jdbc.Driver");
             String jdbcURL = "jdbc:mysql://localhost:3306/inventory?useSSL=false&serverTimezone=UTC";
-            conn = DriverManager.getConnection(jdbcURL, "root", "");
+            conn = DriverManager.getConnection(jdbcURL, "root", "YES");
             System.out.println("Connected successfully");
     
             // Prepare our SQL Statement

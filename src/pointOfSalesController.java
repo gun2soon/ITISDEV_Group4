@@ -80,7 +80,7 @@ public class pointOfSalesController {
         @Override
         public void mouseClicked(MouseEvent e) {
             JLabel clickedLabel = (JLabel) e.getSource();
-            String coffeeType = clickedLabel.getText();
+            String coffeeType = clickedLabel.getText().split("<br>")[0].replaceAll("<html>|</html>|<div style='text-align: center;'>|</div>", "").trim();
     
             String quantityStr = JOptionPane.showInputDialog(view, "Enter quantity for " + coffeeType + ":");
             if (quantityStr != null) {
@@ -166,7 +166,7 @@ public class pointOfSalesController {
                             model.sellCoffee(item.getCoffeeType(), item.getQuantity(), item.isIced());
                          }
 
-                        model.clearBasket();
+                        model.clearBasket(); // <-- ADD AFTER ASKING IF CUSTOMER HAVE DC OR NOT 
                         view.getBasketTableModel().setRowCount(0);
                         updateTransactionTotal();
                     }
