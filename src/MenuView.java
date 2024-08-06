@@ -8,14 +8,15 @@ public class MenuView {
     private JButton POSButton;
     private JButton InventoryButton;
     private JButton exitButton;
+    private Image backgroundImage;
+    private Image logoImage;
 
-    
-    @SuppressWarnings("unlikely-arg-type")
-    public MenuView () {
+    public MenuView() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch(Exception e) {}
-
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         UIManager.put("Label.font", new Font("Arial", Font.PLAIN, 16));
         UIManager.put("TextField.font", new Font("Arial", Font.PLAIN, 16));
@@ -26,31 +27,38 @@ public class MenuView {
         UIManager.put("TableHeader.font", new Font("Arial", Font.PLAIN, 16));
         UIManager.put("ComboBox.font", new Font("Arial", Font.PLAIN, 16));
         UIManager.put("TitledBorder.font", new Font("Arial", Font.PLAIN, 16));
-        UIManager.put("CheckBox.font", new Font("Arial", Font.PLAIN, 16));
-        UIManager.put("FormattedTextField.font", new Font("Arial", Font.PLAIN, 16));
 
-        
-        if (UIManager.getLookAndFeel().equals(UIManager.getSystemLookAndFeelClassName())) {
-            frame.setBackground(UIManager.getColor("Panel.background"));
-        }
-        
         frame = new JFrame("Inventory Management");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(300, 200);
+        frame.setSize(600, 500);
         frame.setResizable(false);
         frame.setLayout(new BorderLayout());
 
+        // Load the background and logo images
+        backgroundImage = new ImageIcon("resources/readyCoffee.jpg").getImage();
+        logoImage = new ImageIcon("resources/logo.png").getImage(); // Replace with the path to your logo
+
+        // Resize the logo image
+        int logoWidth = 300; // Set desired width
+        int logoHeight = 100; // Set desired height
+        Image resizedLogoImage = logoImage.getScaledInstance(logoWidth, logoHeight, Image.SCALE_SMOOTH);
+
+        // Create the custom panel with the background image
+        BackgroundPanel backgroundPanel = new BackgroundPanel();
+        backgroundPanel.setLayout(new BorderLayout());
+
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        buttonPanel.setOpaque(false); // Make the panel transparent
         buttonPanel.setLayout(new GridLayout(4, 1, 10, 4));
 
         POSButton = new JButton("POS");
         InventoryButton = new JButton("Inventory");
-        exitButton = new JButton ("Exit");
+        exitButton = new JButton("Exit");
 
-        JLabel headerLabel = new JLabel("Ready Coffee System", SwingConstants.CENTER);
+        JLabel headerLabel = new JLabel(new ImageIcon(resizedLogoImage), SwingConstants.CENTER);
+        headerLabel.setOpaque(false); // Make the label transparent
 
-        headerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         POSButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         InventoryButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -60,9 +68,11 @@ public class MenuView {
         buttonPanel.add(InventoryButton);
         buttonPanel.add(exitButton);
 
-        frame.add(buttonPanel, BorderLayout.CENTER);
+        backgroundPanel.add(buttonPanel, BorderLayout.CENTER);
+        frame.setContentPane(backgroundPanel);
         frame.setLocationRelativeTo(null); // Center the frame
 
+        frame.setVisible(true);
     }
 
     public void setActionListener(ActionListener listener) {
@@ -86,5 +96,15 @@ public class MenuView {
     public JButton getExitButton() {
         return exitButton;
     }
-}
 
+    // Custom JPanel class to draw the background image
+    class BackgroundPanel extends JPanel {
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            if (backgroundImage != null) {
+                g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+            }
+        }
+    }
+}

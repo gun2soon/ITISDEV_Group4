@@ -221,6 +221,9 @@ public class pointOfSalesController {
     
                     if (amountPaid < totalToPay) {
                         JOptionPane.showMessageDialog(view, "Insufficient amount. Total price is: " + formattedTotalPrice);
+                        model.clearBasket(); 
+                        view.getBasketTableModel().setRowCount(0);
+                        updateTransactionTotal();
                     } else {
                         // Calculate change
                         double change = amountPaid - totalToPay;
@@ -231,7 +234,7 @@ public class pointOfSalesController {
                             model.sellCoffee(item.getCoffeeType(), item.getQuantity(), item.isIced());
                         }
     
-                        model.clearBasket(); // <-- ADD AFTER ASKING IF CUSTOMER HAVE DC OR NOT 
+                        model.clearBasket(); 
                         view.getBasketTableModel().setRowCount(0);
                         updateTransactionTotal();
                     }
