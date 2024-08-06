@@ -431,6 +431,7 @@ public class pointOfSalesController {
         public void actionPerformed(ActionEvent e) {
             view.dispose();
             menuView.getFrame().setVisible(true); // Show the menu view frame
+            inventory.saveInventoryToDatabase();
         }
     }
 
