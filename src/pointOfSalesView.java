@@ -43,6 +43,13 @@ public class pointOfSalesView extends JFrame {
                 "Iced Caramel Macchiato", "Hot Caramel Macchiato"
         };
 
+        String[] price = {
+            "P120.00", "P110.00",
+            "P170.00", "160.00",
+            "P170.00", "P160.00",
+            "P190.00", "P180.00"
+    };
+
         String[] imagePaths = {
                 "resources/Iced-Americano.png", "resources/hot-americano.png", 
                 "resources/iced-mocha.png", "resources/hot-mocha.png", 
@@ -52,7 +59,7 @@ public class pointOfSalesView extends JFrame {
 
         menuLabels = new JLabel[menuItems.length];
         for (int i = 0; i < menuItems.length; i++) {
-            menuLabels[i] = createMenuLabel(menuItems[i], imagePaths[i]);
+            menuLabels[i] = createMenuLabel(menuItems[i], price[i], imagePaths[i]);
             menuPanel.add(menuLabels[i]);
         }
 
@@ -209,8 +216,10 @@ public class pointOfSalesView extends JFrame {
         add(panel);
     }
 
-    private JLabel createMenuLabel(String text, String imagePath) {
-        JLabel label = new JLabel(text);
+    private JLabel createMenuLabel(String productName, String price, String imagePath) {
+        String labelText = "<html><div style='text-align: center;'>" + productName + "<br>" + price + "</div></html>";
+        JLabel label = new JLabel(labelText);
+
         label.setIcon(new ImageIcon(new ImageIcon(imagePath).getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH)));
         label.setHorizontalTextPosition(JLabel.CENTER);
         label.setVerticalTextPosition(JLabel.BOTTOM);
@@ -288,12 +297,6 @@ public class pointOfSalesView extends JFrame {
 
     public void resetSelection() {
         basketTable.clearSelection();
-    }
-
-
-    public void addToBasketTable(String productName, String price) {
-        // basketTableModel.addRow(new Object[]{null, productName, price, "0%"});
-        basketTableModel.addRow(new Object[]{null, productName, price, null});
     }
 
     public void deleteFromBasketTable(int index) {
