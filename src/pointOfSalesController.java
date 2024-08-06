@@ -255,20 +255,21 @@ public class pointOfSalesController {
             transactions = model.getTransactions();
 
             // Column names for the table
-            String[] columnNames = {"ID", "Coffee Type", "Cost", "Profit", "Date"};
+            String[] columnNames = {"ID", "Cup Qty", "Coffee Type", "Cost", "Profit", "Date"};
             // Set column width
-            int[] columnWidth = {50, 150, 100, 100, 100};
+            int[] columnWidth = {100, 100, 300, 100, 100, 200};
 
 
             // Data for the table
-            data = new Object[transactions.size()][5];
+            data = new Object[transactions.size()][6];
             for (int i = 0; i < transactions.size(); i++) {
                 transactionSummary.Transaction transaction = transactions.get(i);
                 data[i][0] = transaction.getIdTransaction();
-                data[i][1] = transaction.getCoffeeType();
-                data[i][2] = transaction.getCost();
-                data[i][3] = transaction.getProfit();
-                data[i][4] = transaction.getDate();
+                data[i][1] = transaction.getcupQuantity();
+                data[i][2] = transaction.getCoffeeType();
+                data[i][3] = transaction.getCost();
+                data[i][4] = transaction.getProfit();
+                data[i][5] = transaction.getDate();
             }
 
             // Create a table model and set it to the JTable
@@ -343,14 +344,15 @@ public class pointOfSalesController {
                         transactions = model.getTransactions();
                     }
 
-                    data = new Object[transactions.size()][5];
+                    data = new Object[transactions.size()][6];
                     for (int i = 0; i < transactions.size(); i++) {
                         transactionSummary.Transaction transaction = transactions.get(i);
                         data[i][0] = transaction.getIdTransaction();
-                        data[i][1] = transaction.getCoffeeType();
-                        data[i][2] = transaction.getCost();
-                        data[i][3] = transaction.getProfit();
-                        data[i][4] = transaction.getDate();
+                        data[i][1] = transaction.getcupQuantity();
+                        data[i][2] = transaction.getCoffeeType();
+                        data[i][3] = transaction.getCost();
+                        data[i][4] = transaction.getProfit();
+                        data[i][5] = transaction.getDate();
                     }
                     tableModel.setDataVector(data, columnNames);
                 }
@@ -370,14 +372,15 @@ public class pointOfSalesController {
                         transactions = model.getTransactions();
                     }
 
-                    data = new Object[transactions.size()][5];
+                    data = new Object[transactions.size()][6];
                     for (int i = 0; i < transactions.size(); i++) {
                         transactionSummary.Transaction transaction = transactions.get(i);
                         data[i][0] = transaction.getIdTransaction();
-                        data[i][1] = transaction.getCoffeeType();
-                        data[i][2] = transaction.getCost();
-                        data[i][3] = transaction.getProfit();
-                        data[i][4] = transaction.getDate();
+                        data[i][1] = transaction.getcupQuantity();
+                        data[i][2] = transaction.getCoffeeType();
+                        data[i][3] = transaction.getCost();
+                        data[i][4] = transaction.getProfit();
+                        data[i][5] = transaction.getDate();
                     }
                     tableModel.setDataVector(data, columnNames);
 

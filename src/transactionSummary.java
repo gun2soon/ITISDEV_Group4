@@ -35,6 +35,10 @@ public class transactionSummary {
             return idTransaction;
         }
 
+        public int getcupQuantity() {
+            return cupQuantity;
+        }
+
         public String getCoffeeType() {
             return coffeeType;
         }
