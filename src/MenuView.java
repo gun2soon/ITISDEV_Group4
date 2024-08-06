@@ -35,7 +35,7 @@ public class MenuView {
         frame.setLayout(new BorderLayout());
 
         // Load the background and logo images
-        backgroundImage = new ImageIcon("resources/readyCoffee.jpg").getImage();
+        backgroundImage = new ImageIcon("resources/readyCoffeeBG.png").getImage();
         logoImage = new ImageIcon("resources/logo.png").getImage(); // Replace with the path to your logo
 
         // Resize the logo image
@@ -43,12 +43,12 @@ public class MenuView {
         int logoHeight = 100; // Set desired height
         Image resizedLogoImage = logoImage.getScaledInstance(logoWidth, logoHeight, Image.SCALE_SMOOTH);
 
-        // Create the custom panel with the background image
-        BackgroundPanel backgroundPanel = new BackgroundPanel();
-        backgroundPanel.setLayout(new BorderLayout());
+        // Create the header panel with the background image
+        HeaderPanel headerPanel = new HeaderPanel();
+        headerPanel.setLayout(new BorderLayout());
 
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(30, 20, 10, 20));
         buttonPanel.setOpaque(false); // Make the panel transparent
         buttonPanel.setLayout(new GridLayout(4, 1, 10, 4));
 
@@ -58,6 +58,7 @@ public class MenuView {
 
         JLabel headerLabel = new JLabel(new ImageIcon(resizedLogoImage), SwingConstants.CENTER);
         headerLabel.setOpaque(false); // Make the label transparent
+        headerLabel.setBorder(BorderFactory.createEmptyBorder(0,0,10,0));
 
         POSButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         InventoryButton.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -68,8 +69,8 @@ public class MenuView {
         buttonPanel.add(InventoryButton);
         buttonPanel.add(exitButton);
 
-        backgroundPanel.add(buttonPanel, BorderLayout.CENTER);
-        frame.setContentPane(backgroundPanel);
+        headerPanel.add(buttonPanel, BorderLayout.CENTER);
+        frame.setContentPane(headerPanel);
         frame.setLocationRelativeTo(null); // Center the frame
 
         frame.setVisible(true);
@@ -97,14 +98,17 @@ public class MenuView {
         return exitButton;
     }
 
-    // Custom JPanel class to draw the background image
-    class BackgroundPanel extends JPanel {
+    // Custom JPanel class to draw the background image only in the header area
+    class HeaderPanel extends JPanel {
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
+            // Draw the background image in the header area
             if (backgroundImage != null) {
-                g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+                int headerHeight = 135; // Height of the header area
+                g.drawImage(backgroundImage, 0, 0, getWidth(), headerHeight, this);
             }
         }
+
     }
 }
