@@ -60,7 +60,7 @@ public class transactionSummary {
 
     private static final String JDBC_URL = "jdbc:mysql://localhost:3306/inventory?useSSL=false&serverTimezone=UTC";
     private static final String JDBC_USER = "root";
-    private static final String JDBC_PASSWORD = "YES";
+    private static final String JDBC_PASSWORD = "12345";
 
     private List<Transaction> transactions;
 
