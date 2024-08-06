@@ -28,7 +28,7 @@ public class transactionSummary {
             this.date = date;
         }
 
-        // (Added) Getters
+        // Getters
         public int getIdTransaction() {
             return idTransaction;
         }
@@ -58,7 +58,7 @@ public class transactionSummary {
 
     private static final String JDBC_URL = "jdbc:mysql://localhost:3306/inventory?useSSL=false&serverTimezone=UTC";
     private static final String JDBC_USER = "root";
-    private static final String JDBC_PASSWORD = "YES";
+    private static final String JDBC_PASSWORD = "";
 
     private List<Transaction> transactions;
 
@@ -80,7 +80,7 @@ public class transactionSummary {
 
         // Save to database
         saveTransactionToDatabase(transaction);
-    }
+    }   
 
     public String getSummary() {
         StringBuilder summary = new StringBuilder();
@@ -93,6 +93,22 @@ public class transactionSummary {
 
     public List<Transaction> getTransactions() {
         return transactions;
+    }
+
+    // get transactions based on given span including start and end date
+    public List<Transaction> getTransactions(Date startDate, Date endDate) {
+        List<Transaction> filteredTransactions = new ArrayList<>();
+        for (Transaction transaction : transactions) {
+            try {
+                Date date = new SimpleDateFormat("yyyy-MM-dd").parse(transaction.date);
+                if (date.after(startDate) && date.before(endDate) || date.equals(startDate) || date.equals(endDate)) {
+                    filteredTransactions.add(transaction);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return filteredTransactions;
     }
 
     private int getNextTransactionId() {
