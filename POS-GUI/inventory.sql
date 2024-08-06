@@ -1,4 +1,4 @@
-CREATE DATABASE  IF NOT EXISTS `inventory` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE  IF NOT EXISTS `inventory` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `inventory`;
 -- MySQL dump 10.13  Distrib 8.0.36, for Win64 (x86_64)
 --
@@ -30,7 +30,7 @@ CREATE TABLE `coffeebeans` (
   `quantity` int DEFAULT NULL,
   `unit` varchar(1) DEFAULT NULL,
   PRIMARY KEY (`idCoffeeBeans`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +39,7 @@ CREATE TABLE `coffeebeans` (
 
 LOCK TABLES `coffeebeans` WRITE;
 /*!40000 ALTER TABLE `coffeebeans` DISABLE KEYS */;
-INSERT INTO `coffeebeans` VALUES (1001,10.00,1000,'g');
+INSERT INTO `coffeebeans` VALUES (1001,2200.00,1000,'g');
 /*!40000 ALTER TABLE `coffeebeans` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -57,7 +57,7 @@ CREATE TABLE `cups` (
   `type` varchar(45) DEFAULT NULL,
   `unit` varchar(3) DEFAULT NULL,
   PRIMARY KEY (`idCups`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -84,7 +84,7 @@ CREATE TABLE `lids` (
   `type` varchar(45) DEFAULT NULL,
   `unit` varchar(3) DEFAULT NULL,
   PRIMARY KEY (`idLids`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -110,7 +110,7 @@ CREATE TABLE `milk` (
   `quantity` int DEFAULT NULL,
   `unit` varchar(2) DEFAULT NULL,
   PRIMARY KEY (`idMilk`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -122,6 +122,22 @@ LOCK TABLES `milk` WRITE;
 INSERT INTO `milk` VALUES (4001,100.00,1000,'ml');
 /*!40000 ALTER TABLE `milk` ENABLE KEYS */;
 UNLOCK TABLES;
+
+DROP TABLE IF EXISTS `transactions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `transactions` (
+  `idTransaction` INT NOT NULL,
+  `cupQuantity` INT NULL,
+  `coffeeType` VARCHAR(45) NULL,
+  `coffeeCost` FLOAT NULL,
+  `coffeeProfit` FLOAT NULL,
+  `orderDate` VARCHAR(45) NULL,
+  PRIMARY KEY (idTransaction)
+) ENGINE = InnoDB;
+ALTER TABLE `inventory`.`transactions`
+MODIFY `idTransaction` INT NOT NULL AUTO_INCREMENT,
+AUTO_INCREMENT = 10000;
 
 --
 -- Table structure for table `straws`
@@ -136,7 +152,7 @@ CREATE TABLE `straws` (
   `quantity` int DEFAULT NULL,
   `unit` varchar(3) DEFAULT NULL,
   PRIMARY KEY (`idStraws`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -163,7 +179,7 @@ CREATE TABLE `syrup` (
   `type` varchar(45) DEFAULT NULL,
   `unit` varchar(2) DEFAULT NULL,
   PRIMARY KEY (`idSyrup`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -172,7 +188,7 @@ CREATE TABLE `syrup` (
 
 LOCK TABLES `syrup` WRITE;
 /*!40000 ALTER TABLE `syrup` DISABLE KEYS */;
-INSERT INTO `syrup` VALUES (6001,10.00,1000,'Chocolate','ml'),(6002,20.00,1000,'Vanilla','ml'),(6003,30.00,1000,'Caramel','ml'),(6004,400.00,1000,'Simple','ml');
+INSERT INTO `syrup` VALUES (6001,750.00,1000,'Chocolate','ml'),(6002,750.00,1000,'Vanilla','ml'),(6003,750.00,1000,'Caramel','ml'),(6004,500.00,1000,'Simple','ml');
 /*!40000 ALTER TABLE `syrup` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -184,5 +200,3 @@ UNLOCK TABLES;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2024-07-14  9:44:41
