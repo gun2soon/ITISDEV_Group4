@@ -26,7 +26,7 @@ public class InventoryController {
             public void actionPerformed(ActionEvent e) {
                 view.getFrame().dispose();
                 menuView.getFrame().setVisible(true);
-
+                imsmodel.saveInventoryToDatabase();
             }
         });
 

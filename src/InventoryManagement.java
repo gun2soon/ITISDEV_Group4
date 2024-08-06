@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class InventoryManagement {
     private ArrayList<InventoryItem> inventory;
-    private int nextSKU;
+    //private int nextSKU;
     private Scanner sc;
 
     private List<CoffeeBeans> coffeebeansList = new ArrayList<>();
@@ -23,7 +23,7 @@ public class InventoryManagement {
 
     public InventoryManagement() {
         inventory = new ArrayList<>();
-        nextSKU = 1;
+        //nextSKU = 1;
         sc = new Scanner(System.in);
     }
 
@@ -196,7 +196,7 @@ public class InventoryManagement {
     
     private static final String JDBC_URL = "jdbc:mysql://localhost:3306/inventory?useSSL=false&serverTimezone=UTC";
     private static final String JDBC_USER = "root";
-    private static final String JDBC_PASSWORD = "";
+    private static final String JDBC_PASSWORD = "12345";
 
     public int List_inventory() {
         Connection conn = null;
@@ -324,7 +324,7 @@ public class InventoryManagement {
             // Connect to our database
             Class.forName("com.mysql.cj.jdbc.Driver");
             String jdbcURL = "jdbc:mysql://localhost:3306/inventory?useSSL=false&serverTimezone=UTC";
-            conn = DriverManager.getConnection(jdbcURL, "root", "");
+            conn = DriverManager.getConnection(jdbcURL, "root", "12345");
             System.out.println("Connected successfully");
     
             // Prepare our SQL Statement

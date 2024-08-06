@@ -45,5 +45,6 @@ public class MenuController implements ActionListener {
         }
         JFrame inventoryFrame = inventoryView.getFrame();
         inventoryFrame.setVisible(true);
+        InventoryController.populateTable();
     }
 }

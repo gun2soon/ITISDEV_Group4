@@ -123,8 +123,12 @@ INSERT INTO `milk` VALUES (4001,100.00,1000,'ml');
 /*!40000 ALTER TABLE `milk` ENABLE KEYS */;
 UNLOCK TABLES;
 
-CREATE TABLE IF NOT EXISTS `transactions` (
+DROP TABLE IF EXISTS `transactions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `transactions` (
   `idTransaction` INT NOT NULL,
+  `cupQuantity` INT NULL,
   `coffeeType` VARCHAR(45) NULL,
   `coffeeCost` FLOAT NULL,
   `coffeeProfit` FLOAT NULL,
@@ -184,7 +188,7 @@ CREATE TABLE `syrup` (
 
 LOCK TABLES `syrup` WRITE;
 /*!40000 ALTER TABLE `syrup` DISABLE KEYS */;
-INSERT INTO `syrup` VALUES (6001,10.00,1000,'Chocolate','ml'),(6002,20.00,1000,'Vanilla','ml'),(6003,30.00,1000,'Caramel','ml'),(6004,400.00,1000,'Simple','ml');
+INSERT INTO `syrup` VALUES (6001,750.00,1000,'Chocolate','ml'),(6002,750.00,1000,'Vanilla','ml'),(6003,750.00,1000,'Caramel','ml'),(6004,500.00,1000,'Simple','ml');
 /*!40000 ALTER TABLE `syrup` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -196,5 +200,3 @@ UNLOCK TABLES;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2024-07-14  9:44:41
