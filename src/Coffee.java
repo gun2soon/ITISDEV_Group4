@@ -37,7 +37,7 @@ public class Coffee {
                 case "Iced Cafe Americano":
                     inventory.removeItem("Coffee Beans", 22 * quantity);
                     inventory.removeItem("16 oz Cold Cups", 1 * quantity);
-                    inventory.removeItem("Lid: Cold Lids", 1 * quantity);
+                    inventory.removeItem("Cold Lids", 1 * quantity);
                     inventory.removeItem("Straws", 1 * quantity);
                     break;
                 case "Iced Cafe Mocha":
@@ -46,7 +46,7 @@ public class Coffee {
                     inventory.removeItem("Simple Syrup", 10 * quantity);
                     inventory.removeItem("Milk", 250 * quantity);
                     inventory.removeItem("16 oz Cold Cups", 1 * quantity);
-                    inventory.removeItem("Lid: Cold Lids", 1 * quantity);
+                    inventory.removeItem("Cold Lids", 1 * quantity);
                     inventory.removeItem("Straws", 1 * quantity);
                     break;
                 case "Iced Vanilla Macchiato":
@@ -55,7 +55,7 @@ public class Coffee {
                     inventory.removeItem("Simple Syrup", 10 * quantity);
                     inventory.removeItem("Milk", 250 * quantity);
                     inventory.removeItem("16 oz Cold Cups", 1 * quantity);
-                    inventory.removeItem("Lid: Cold Lids", 1 * quantity);
+                    inventory.removeItem("Cold Lids", 1 * quantity);
                     inventory.removeItem("Straws", 1 * quantity);
                     break;
                 case "Iced Caramel Macchiato":
@@ -64,7 +64,7 @@ public class Coffee {
                     inventory.removeItem("Simple Syrup", 10 * quantity);
                     inventory.removeItem("Milk", 250 * quantity);
                     inventory.removeItem("16 oz Cold Cups", 1 * quantity);
-                    inventory.removeItem("Lid: Cold Lids", 1 * quantity);
+                    inventory.removeItem("Cold Lids", 1 * quantity);
                     inventory.removeItem("Straws", 1 * quantity);
                     break;
                 default:
@@ -76,7 +76,7 @@ public class Coffee {
                 case "Hot Cafe Americano":
                     inventory.removeItem("Coffee Beans", 20 * quantity);
                     inventory.removeItem("16 oz Hot Cups", 1 * quantity);
-                    inventory.removeItem("Lid: Hot Lids", 1 * quantity);
+                    inventory.removeItem("Hot Lids", 1 * quantity);
                     break;
                 case "Hot Cafe Mocha":
                     inventory.removeItem("Coffee Beans", 20 * quantity);
@@ -84,7 +84,7 @@ public class Coffee {
                     inventory.removeItem("Simple Syrup", 10 * quantity);
                     inventory.removeItem("Milk", 250 * quantity);
                     inventory.removeItem("16 oz Hot Cups", 1 * quantity);
-                    inventory.removeItem("Lid: Hot Lids", 1 * quantity);
+                    inventory.removeItem("Hot Lids", 1 * quantity);
                     break;
                 case "Hot Vanilla Macchiato":
                     inventory.removeItem("Coffee Beans", 10 * quantity);
@@ -92,7 +92,7 @@ public class Coffee {
                     inventory.removeItem("Simple Syrup", 10 * quantity);
                     inventory.removeItem("Milk", 250 * quantity);
                     inventory.removeItem("16 oz Hot Cups", 1 * quantity);
-                    inventory.removeItem("Lid: Hot Lids", 1 * quantity);
+                    inventory.removeItem("Hot Lids", 1 * quantity);
                     break;
                 case "Hot Caramel Macchiato":
                     inventory.removeItem("Coffee Beans", 10 * quantity);
@@ -100,7 +100,7 @@ public class Coffee {
                     inventory.removeItem("Simple Syrup", 10 * quantity);
                     inventory.removeItem("Milk", 250 * quantity);
                     inventory.removeItem("16 oz Hot Cups", 1 * quantity);
-                    inventory.removeItem("Lid: Hot Lids", 1 * quantity);
+                    inventory.removeItem("Hot Lids", 1 * quantity);
                     break;
                 default:
                     System.out.println("Invalid coffee type.");
