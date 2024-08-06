@@ -248,183 +248,216 @@ public class pointOfSalesController {
 
     
 
-    class TransactionSummaryListener implements ActionListener {
-        List<transactionSummary.Transaction> transactions; 
-        Object[][] data;
-        public void actionPerformed(ActionEvent e) {
-            transactions = model.getTransactions();
+   
+public class TransactionSummaryListener implements ActionListener {
+    private List<transactionSummary.Transaction> transactions;
+    private Object[][] data;
 
-            // Column names for the table
-            String[] columnNames = {"ID", "Cup Qty", "Coffee Type", "Cost", "Profit", "Date"};
-            // Set column width
-            int[] columnWidth = {100, 100, 300, 100, 100, 200};
+    private JTextField totalSalesField;
+    private JTextField totalProfitField;
+    private JTextField totalCupsField;
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        transactionSummary transactionSummary = new transactionSummary();
+        transactionSummary.loadTransactionsFromDatabase();
+        transactions = model.getTransactions();
 
-            // Data for the table
-            data = new Object[transactions.size()][6];
-            for (int i = 0; i < transactions.size(); i++) {
-                transactionSummary.Transaction transaction = transactions.get(i);
-                data[i][0] = transaction.getIdTransaction();
-                data[i][1] = transaction.getcupQuantity();
-                data[i][2] = transaction.getCoffeeType();
-                data[i][3] = transaction.getCost();
-                data[i][4] = transaction.getProfit();
-                data[i][5] = transaction.getDate();
-            }
+        // Column names for the table
+        String[] columnNames = {"ID", "Cup Qty", "Coffee Type", "Cost", "Profit", "Date"};
+        // Set column width
+        int[] columnWidth = {100, 100, 300, 100, 100, 200};
 
-            // Create a table model and set it to the JTable
-            DefaultTableModel tableModel = new DefaultTableModel(data, columnNames);
-            JTable table = new JTable(tableModel);
-            for (int i = 0; i < columnNames.length; i++) {
-                table.getColumnModel().getColumn(i).setPreferredWidth(columnWidth[i]);
-            }
-
-            // Create a scroll pane and add the table to it
-            JScrollPane scrollPane = new JScrollPane(table);
-
-
-            JPanel panel = new JPanel(new BorderLayout());
-            panel.add(scrollPane, BorderLayout.CENTER);
-
-            JCheckBox dateFilter = new JCheckBox("Filter by Date");
-            
-
-            AbstractFormatter customFormatter = new AbstractFormatter() {
-                private String datePattern = "yyyy-MM-dd";
-                private SimpleDateFormat dateFormatter = new SimpleDateFormat(datePattern);
-                
-                @Override
-                public Object stringToValue(String text) throws ParseException {
-                    return dateFormatter.parseObject(text);
-                }
-            
-                @Override
-                public String valueToString(Object value) throws ParseException {
-                    if (value != null) {
-                        Calendar cal = (Calendar) value;
-                        return dateFormatter.format(cal.getTime());
-                    }
-                    
-                    return "";
-                }
-            };
-
-            Properties p = new Properties();
-            p.put("text.today", "Today");
-            p.put("text.month", "Month");
-            p.put("text.year", "Year");
-
-            UtilDateModel fromDateModel = new UtilDateModel();
-            fromDateModel.setValue(Calendar.getInstance().getTime());
-            JDatePanelImpl fromDatePanel = new JDatePanelImpl(fromDateModel, p);
-            JDatePickerImpl fromDatePicker = new JDatePickerImpl(fromDatePanel, customFormatter);
-            fromDatePicker.setFont(new Font("Arial", Font.PLAIN, 16));
-
-            UtilDateModel toDateModel = new UtilDateModel();
-            toDateModel.setValue(Calendar.getInstance().getTime());
-            JDatePanelImpl toDatePanel = new JDatePanelImpl(toDateModel, p);
-            JDatePickerImpl toDatePicker = new JDatePickerImpl(toDatePanel, customFormatter);
-            toDatePicker.setFont(new Font("Arial", Font.PLAIN, 16));
-
-
-            fromDatePicker.getComponent(1).setEnabled(false);
-            toDatePicker.getComponent(1).setEnabled(false);
-
-            dateFilter.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    boolean selected = dateFilter.isSelected();
-                    fromDatePicker.getComponent(1).setEnabled(selected);
-                    toDatePicker.getComponent(1).setEnabled(selected);
-
-                    tableModel.setRowCount(0);
-                    if (selected) {                        
-                        transactions = model.getTransactions(fromDateModel.getValue(), toDateModel.getValue());
-                    } else {
-                        transactions = model.getTransactions();
-                    }
-
-                    data = new Object[transactions.size()][6];
-                    for (int i = 0; i < transactions.size(); i++) {
-                        transactionSummary.Transaction transaction = transactions.get(i);
-                        data[i][0] = transaction.getIdTransaction();
-                        data[i][1] = transaction.getcupQuantity();
-                        data[i][2] = transaction.getCoffeeType();
-                        data[i][3] = transaction.getCost();
-                        data[i][4] = transaction.getProfit();
-                        data[i][5] = transaction.getDate();
-                    }
-                    tableModel.setDataVector(data, columnNames);
-                }
-            });
-
-            ChangeListener dateChangeListener = new ChangeListener() {
-                @Override
-                public void stateChanged(ChangeEvent e) {
-                    boolean selected = dateFilter.isSelected();
-                    fromDatePicker.getComponent(1).setEnabled(selected);
-                    toDatePicker.getComponent(1).setEnabled(selected);
-
-                    tableModel.setRowCount(0);
-                    if (selected) {                        
-                        transactions = model.getTransactions(fromDateModel.getValue(), toDateModel.getValue());
-                    } else {
-                        transactions = model.getTransactions();
-                    }
-
-                    data = new Object[transactions.size()][6];
-                    for (int i = 0; i < transactions.size(); i++) {
-                        transactionSummary.Transaction transaction = transactions.get(i);
-                        data[i][0] = transaction.getIdTransaction();
-                        data[i][1] = transaction.getcupQuantity();
-                        data[i][2] = transaction.getCoffeeType();
-                        data[i][3] = transaction.getCost();
-                        data[i][4] = transaction.getProfit();
-                        data[i][5] = transaction.getDate();
-                    }
-                    tableModel.setDataVector(data, columnNames);
-
-                }
-            };
-            fromDateModel.addChangeListener(dateChangeListener);
-            toDateModel.addChangeListener(dateChangeListener);
-
-            JPanel datePickers = new JPanel(new GridBagLayout());
-            GridBagConstraints gbc = new GridBagConstraints();
-            gbc.gridx = 0;
-            gbc.gridy = 0;
-            gbc.anchor = GridBagConstraints.WEST;
-            gbc.fill = GridBagConstraints.HORIZONTAL;
-            gbc.insets.set(5, 0, 5, 0);
-
-            gbc.gridwidth = 2;
-            datePickers.add(dateFilter, gbc);
-            gbc.gridwidth = 1;
-            gbc.gridy++;
-            gbc.insets.set(2, 0, 5, 5);
-            datePickers.add(new JLabel("From: "), gbc);
-            gbc.gridy++;
-            datePickers.add(fromDatePicker, gbc);
-            gbc.gridy = 1;
-            gbc.gridx++;
-            gbc.insets.set(2, 5, 5, 0);
-            datePickers.add(new JLabel("To: "), gbc);
-            gbc.gridy++;
-            datePickers.add(toDatePicker, gbc);
-            
-
-
-
-
-
-            panel.add(datePickers, BorderLayout.SOUTH);
-            
-
-            // Show the table inside a MessageDialog
-            JOptionPane.showMessageDialog(null, panel, "Transaction Summary", JOptionPane.PLAIN_MESSAGE);
-        
+        // Data for the table
+        data = new Object[transactions.size()][6];
+        for (int i = 0; i < transactions.size(); i++) {
+            transactionSummary.Transaction transaction = transactions.get(i);
+            data[i][0] = transaction.getIdTransaction();
+            data[i][1] = transaction.getcupQuantity();
+            data[i][2] = transaction.getCoffeeType();
+            data[i][3] = transaction.getCost();
+            data[i][4] = transaction.getProfit();
+            data[i][5] = transaction.getDate();
         }
-    }    
+
+        // Create a table model and set it to the JTable
+        DefaultTableModel tableModel = new DefaultTableModel(data, columnNames);
+        JTable table = new JTable(tableModel);
+        for (int i = 0; i < columnNames.length; i++) {
+            table.getColumnModel().getColumn(i).setPreferredWidth(columnWidth[i]);
+        }
+
+        // Create a scroll pane and add the table to it
+        JScrollPane scrollPane = new JScrollPane(table);
+
+        // Initialize the total fields
+        totalSalesField = new JTextField(15);
+        totalProfitField = new JTextField(15);
+        totalCupsField = new JTextField(15);
+
+        updateTotalBoxes();
+
+        JPanel totalsPanel = new JPanel(new GridLayout(3, 2, 10, 10)); // Added horizontal and vertical gaps
+        totalsPanel.add(new JLabel("Total Sales: "));
+        totalsPanel.add(totalSalesField);
+        totalsPanel.add(new JLabel("Total Profit: "));
+        totalsPanel.add(totalProfitField);
+        totalsPanel.add(new JLabel("Total Cups Sold: "));
+        totalsPanel.add(totalCupsField);
+
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.add(scrollPane, BorderLayout.CENTER);
+        panel.add(totalsPanel, BorderLayout.SOUTH);
+
+        JCheckBox dateFilter = new JCheckBox("Filter by Date");
+
+        AbstractFormatter customFormatter = new AbstractFormatter() {
+            private String datePattern = "yyyy-MM-dd";
+            private SimpleDateFormat dateFormatter = new SimpleDateFormat(datePattern);
+
+            @Override
+            public Object stringToValue(String text) throws ParseException {
+                return dateFormatter.parseObject(text);
+            }
+
+            @Override
+            public String valueToString(Object value) throws ParseException {
+                if (value != null) {
+                    Calendar cal = (Calendar) value;
+                    return dateFormatter.format(cal.getTime());
+                }
+
+                return "";
+            }
+        };
+
+        Properties p = new Properties();
+        p.put("text.today", "Today");
+        p.put("text.month", "Month");
+        p.put("text.year", "Year");
+
+        UtilDateModel fromDateModel = new UtilDateModel();
+        fromDateModel.setValue(Calendar.getInstance().getTime());
+        JDatePanelImpl fromDatePanel = new JDatePanelImpl(fromDateModel, p);
+        JDatePickerImpl fromDatePicker = new JDatePickerImpl(fromDatePanel, customFormatter);
+        fromDatePicker.setFont(new Font("Arial", Font.PLAIN, 16));
+
+        UtilDateModel toDateModel = new UtilDateModel();
+        toDateModel.setValue(Calendar.getInstance().getTime());
+        JDatePanelImpl toDatePanel = new JDatePanelImpl(toDateModel, p);
+        JDatePickerImpl toDatePicker = new JDatePickerImpl(toDatePanel, customFormatter);
+        toDatePicker.setFont(new Font("Arial", Font.PLAIN, 16));
+
+        fromDatePicker.getComponent(1).setEnabled(false);
+        toDatePicker.getComponent(1).setEnabled(false);
+
+        dateFilter.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boolean selected = dateFilter.isSelected();
+                fromDatePicker.getComponent(1).setEnabled(selected);
+                toDatePicker.getComponent(1).setEnabled(selected);
+
+                tableModel.setRowCount(0);
+                if (selected) {
+                    transactions = model.getTransactions(fromDateModel.getValue(), toDateModel.getValue());
+                } else {
+                    transactions = model.getTransactions();
+                }
+
+                data = new Object[transactions.size()][6];
+                for (int i = 0; i < transactions.size(); i++) {
+                    transactionSummary.Transaction transaction = transactions.get(i);
+                    data[i][0] = transaction.getIdTransaction();
+                    data[i][1] = transaction.getcupQuantity();
+                    data[i][2] = transaction.getCoffeeType();
+                    data[i][3] = transaction.getCost();
+                    data[i][4] = transaction.getProfit();
+                    data[i][5] = transaction.getDate();
+                }
+                tableModel.setDataVector(data, columnNames);
+                updateTotalBoxes();
+            }
+        });
+
+        ChangeListener dateChangeListener = new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                boolean selected = dateFilter.isSelected();
+                fromDatePicker.getComponent(1).setEnabled(selected);
+                toDatePicker.getComponent(1).setEnabled(selected);
+
+                tableModel.setRowCount(0);
+                if (selected) {
+                    transactions = model.getTransactions(fromDateModel.getValue(), toDateModel.getValue());
+                } else {
+                    transactions = model.getTransactions();
+                }
+
+                data = new Object[transactions.size()][6];
+                for (int i = 0; i < transactions.size(); i++) {
+                    transactionSummary.Transaction transaction = transactions.get(i);
+                    data[i][0] = transaction.getIdTransaction();
+                    data[i][1] = transaction.getcupQuantity();
+                    data[i][2] = transaction.getCoffeeType();
+                    data[i][3] = transaction.getCost();
+                    data[i][4] = transaction.getProfit();
+                    data[i][5] = transaction.getDate();
+                }
+                tableModel.setDataVector(data, columnNames);
+                updateTotalBoxes();
+            }
+        };
+        fromDateModel.addChangeListener(dateChangeListener);
+        toDateModel.addChangeListener(dateChangeListener);
+
+        JPanel datePickers = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets.set(5, 0, 5, 0);
+
+        gbc.gridwidth = 2;
+        datePickers.add(dateFilter, gbc);
+        gbc.gridwidth = 1;
+        gbc.gridy++;
+        gbc.insets.set(2, 0, 5, 5);
+        datePickers.add(new JLabel("From: "), gbc);
+        gbc.gridy++;
+        datePickers.add(fromDatePicker, gbc);
+        gbc.gridy = 1;
+        gbc.gridx++;
+        gbc.insets.set(2, 5, 5, 0);
+        datePickers.add(new JLabel("To: "), gbc);
+        gbc.gridy++;
+        datePickers.add(toDatePicker, gbc);
+
+        panel.add(datePickers, BorderLayout.NORTH);
+
+        // Show the table inside a MessageDialog
+        JOptionPane.showMessageDialog(null, panel, "Transaction Summary", JOptionPane.PLAIN_MESSAGE);
+    }
+
+    private void updateTotalBoxes() {
+        double totalSales = 0;
+        double totalProfit = 0;
+        int totalCups = 0;
+
+        for (transactionSummary.Transaction transaction : transactions) {
+            totalSales += transaction.getCost();
+            totalProfit += transaction.getProfit();
+            totalCups += transaction.getcupQuantity();
+        }
+
+        if (totalSalesField != null && totalProfitField != null && totalCupsField != null) {
+            totalSalesField.setText(String.format("%.2f", totalSales));
+            totalProfitField.setText(String.format("%.2f", totalProfit));
+            totalCupsField.setText(String.valueOf(totalCups));
+        }
+    }
+}
 
     
     class ExitButtonListener implements ActionListener {

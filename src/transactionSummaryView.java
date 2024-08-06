@@ -51,4 +51,11 @@ public class transactionSummaryView {
         }
     }
     
+    public void displaySummaryForDateRange(String startDate, String endDate) {
+        float[] totals = transactionSummary.getTotalCostProfitAndCups(startDate, endDate);
+        textArea.setText("");
+        textArea.append("Total Sales: Php " + totals[0] + "\n");
+        textArea.append("Total Profit: Php " + totals[1] + "\n");
+        textArea.append("Total Cups Sold: " + totals[2] + "\n");
+    }
 }
