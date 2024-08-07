@@ -158,7 +158,7 @@ public class InventoryController {
     }
 
     // Update the table after the inventory update
-    private void updateTable() {
+    public void updateTable() {
         DefaultTableModel tableModel = imsview.getTableModel();
         tableModel.setRowCount(0); // Clear the table
         populateTable(); // Repopulate table with updated data
