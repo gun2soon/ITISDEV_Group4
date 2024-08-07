@@ -465,7 +465,6 @@ public class TransactionSummaryListener implements ActionListener {
             view.dispose();
             menuView.getFrame().setVisible(true); // Show the menu view frame
             inventory.saveInventoryToDatabase(); // Save updates to the database
-            //inventory.populateTable();
         }
     }
 
