@@ -24,12 +24,14 @@ This repository contains the code for a Point of Sale (POS) and Inventory Manage
 - Transaction Summary: Record and display summaries of all transactions such as total sales, total profit, and total cups sold.
 
 Prerequisites
+
 Ensure you have the following installed on your system:
 - Java Development Kit (JDK) 8 or higher
 - MySQL Server
 - JDBC MySQL Connector
 
  Setup Instructions
+ 
  Step 1: Download JAR Files
 1. Download the jdatepicker and mysql connector JAR files from the repository. 
 
